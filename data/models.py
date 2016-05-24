@@ -10,7 +10,7 @@ class Image(models.Model):
     filename = models.CharField('Filename', max_length=512)
 
     def get_url(self):
-        return "http://bfidata.s3-website-us-east-1.amazonaws.com/streetviews/{}".format(self.filename)
+        return "http://bfidata.s3-website-us-east-1.amazonaws.com/libraryimages/{}".format(self.filename)
 
     def check_status(self,user):
         rs = user.task_set.filter(task_id=self.id)
