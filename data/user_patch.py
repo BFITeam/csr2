@@ -34,3 +34,4 @@ def __str__(self):
 
 User.add_to_class('__str__', __str__)
 
+

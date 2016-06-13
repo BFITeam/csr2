@@ -33,17 +33,13 @@
     <h2 class="form-signin-heading">Please sign in</h2>
     <label for="id_username" class="sr-only">{{ form.username.label_tag }}</label>
     <input type="text" id="id_username" name="username" class="form-control" placeholder="username" required autofocus>
-    <label for="id_password" class="sr-only">{{ form.password.label_tag }}</label>
-    <input type="password" name="password" id="id_password" class="form-control" placeholder="Password" required>
+    <input type="hidden" name="password" id="id_password" value="none">
     <input type='submit' class="btn btn-lg btn-primary btn-block" value="login" />
     <input type="hidden" value="{{ next }}"/>
 
     {% if form.errors %}
         <div class="alert alert-danger" roll="alert">
-            Username and password combination are not recognized.
-        </div>
-        <div class="alrt alert-info" roll="alert">
-            <a href="{% url 'password_reset' %}">forgot password?</a>
+            Key not recognized.
         </div>
     {% endif %}
 

@@ -13,7 +13,7 @@ from django.conf import settings
 import user_patch
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
-
+import uuid
 # Create your views here.
 
 @login_required(login_url="/login/")
@@ -118,3 +118,17 @@ def home_timer(request):
     response = HttpResponse()
     return response
 
+
+def keygen(request):
+    created = False
+    while not created:
+
+        user = User(username=str(uuid.uuid1())[:30], password="none")
+        try:
+            user.save()
+        except IntegrityError:
+            continue
+        else:
+            created = True
+    context = {'user': user}
+    return render(request, "data/keygen.html", context)
