@@ -48,6 +48,11 @@ class Task(models.Model):
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
 
+    readable = models.IntegerField(null=True)
+    text = models.TextField(null=True, blank=True)
+    order = models.IntegerField(null=True)
+    status = models.IntegerField(default=0)
+
     timestarted = models.DateTimeField(default=get_now)
     timefinished = models.DateTimeField(null=True, blank=True)
 

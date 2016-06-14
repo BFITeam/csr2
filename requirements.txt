@@ -1,7 +1,13 @@
+APScheduler==3.2.0
+boto==2.40.0
 dj-database-url==0.3.0
 Django==1.9.7
 django-request==1.4.0
+funcsigs==1.0.2
+futures==3.0.5
 gunicorn==19.3.0
 psycopg2==2.6.1
 pytz==2015.7
+six==1.10.0
+tzlocal==1.2.2
 whitenoise==2.0.4
