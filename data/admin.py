@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import WorkTimer, Task, EventLog
+from .models import WorkTimer, Task, EventLog, Mturker
 from django.contrib.auth.models import User
 import user_patch
 # Register your models here.
@@ -40,6 +40,11 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('user', 'image')
     readonly_fields = ('user', 'image',)
     search_fields = ['user__username']
+
+@admin.register(Mturker)
+class MtukerAdmin(admin.ModelAdmin):
+    list_display = ('accepted',)
+
 @admin.register(EventLog)
 class EventLog(admin.ModelAdmin):
     list_display = ('get_username', 'name', 'user_id', 'timestamp',)
