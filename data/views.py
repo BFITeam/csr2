@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Image, Task, EventLog, WorkTimer
+from .models import Image, Task, EventLog, WorkTimer, Mturker
 from django.forms.models import inlineformset_factory, modelform_factory
 from .decorators import timeout_logging
 from forms import MenuItemForm
@@ -18,7 +18,35 @@ import uuid
 
 @login_required(login_url="/login/")
 def index(request):
-    return HttpResponseRedirect(reverse('data:images'))
+    mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
+
+    return HttpResponseRedirect(reverse('data:info'))
+
+@login_required(login_url="/login/")
+def info(request):
+    mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
+    MturkerForm = modelform_factory(Mturker, fields=['accepted',])
+    if request.user.mturker.accepted == 1:
+        return HttpResponseRedirect(reverse('data:begin'))
+    elif request.user.mturker.accepted == 0:
+        return redirect('unauthorized')
+    if request.method == 'POST':
+        mturkerform = MturkerForm(request.POST, instance=mturker)
+        if mturkerform.is_valid():
+            mturker.accepted = int(request.POST['accepted'])
+            mturker.save()
+    else:
+        mturkerform = MturkerForm(instance=mturker)
+    context = {
+        'description': "You are going to work on something",
+        'mturkerform': mturkerform,
+    }
+    return render(request, 'data/description.html', context)
+
+
+@login_required(login_url='/login/')
+def begin(request):
+    return render(request, 'data/main.html')
 
 @login_required(login_url="/login/")
 def list_images(request):
@@ -60,11 +88,6 @@ def field_widget_callback(field):
 
 @timeout_logging
 def task_entry(request, image_id):
-    fields = [
-        'month','year','street_num', 'street_nam',  'city', 'state', 'pic_quality', 'str_quality', 'pot_holes',
-        'bui_quality', 'car_quality', 'litter', 'road_work', 'graffiti',  'for_sale',
-        'shoes', 'people', 'broken_signs', 'trees',
-    ]
     inactive = 0
     task, created = Task.objects.get_or_create(image_id=image_id, user_id=request.user.id)
     TaskForm = modelform_factory(Task, exclude=['id', 'image', 'user', 'finished', 'timestarted', 'timefinished',])
@@ -118,12 +141,15 @@ def home_timer(request):
     response = HttpResponse()
     return response
 
+def unauthorized(request):
+    return render(request, 'data/unauthorized.html')
 
 def keygen(request):
     created = False
     while not created:
 
-        user = User(username=str(uuid.uuid1())[:30], password="none")
+        user = User(username=str(uuid.uuid1())[:30])
+        user.set_password("none")
         try:
             user.save()
         except IntegrityError:

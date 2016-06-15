@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    {% include "data/includes/intromodal.html" %}
+
+    <div class="row">
+        <div class="col-md-8 page-header">
+            <h3>Get Started</h3>
+        </div>
+    </div>
+    <div class="row">
+        <p>Begin working</p>
+        {% include "data/includes/info.html" %}
+        {% include "includes/hometimer.html" %}
+    </div><!-- /.row -->
+</div> <!-- /.container -->
+{% endblock %}

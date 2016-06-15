@@ -8,9 +8,10 @@ def get_now():
 # Create your models here.
 
 class Mturker(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     treatment = models.CharField(max_length=256, null=True)
     verified = models.IntegerField(default=0)
+    accepted = models.IntegerField(null=True)
     start = models.DateTimeField(null=True, blank=True)
     def gen_keycode(self):
         if not self.keycode:
