@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
+import random
 
 def get_now():
     return timezone.now()
@@ -13,10 +14,31 @@ class Mturker(models.Model):
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True)
     start = models.DateTimeField(null=True, blank=True)
-    def gen_keycode(self):
-        if not self.keycode:
-            self.keycode = str(uuid.uuid1())
-            self.save()
+    batch = models.CharField(max_length=256)
+
+    def get_task(self):
+        images = Images.filter(batch=self.batch)
+        tasks = self.user.task_set.all()
+        unfinished = tasks.filter(status=0)
+        remaining = len(images)-len(tasks)
+        if len(unfinished)>0:
+            print "Number of unfinished tasks:",len(unfinished)
+            current = unfinished[0]
+        elif len(unfinished) == 0:
+            for x in range(len(images)):
+                tempImage = random.choice(images)
+                current, created = Task.get_or_create(user_id=self.user.id, image_id=tempImage.id)
+                if created == True:
+                    break
+                else:
+                    current = False
+        if not current:
+            entry = False
+        else:
+            entry = "text" if current.readable else "readable"
+        return current, entry
+
+
 
 class Image(models.Model):
     filename = models.CharField('Filename', max_length=512)
@@ -58,18 +80,9 @@ class Task(models.Model):
     timefinished = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if self.finished == 1 and self.timefinished == None:
+        if self.status == 1 and self.timefinished == None:
             self.timefinished = get_now()
         super(Task, self).save(*args, **kwargs)
-
-    def __str__(self):
-        if self.street_num and self.street_nam:
-            y = "{}".format(self.year) if self.year else ""
-            m = self.month if self.month else ""
-            return "{} {} {}-{}".format(self.street_num, self.street_nam, m, y)
-        else:
-            return self.image.filename
-
 
 def get_now():
     return timezone.now()

@@ -29,12 +29,13 @@ def info(request):
     if request.user.mturker.accepted == 1:
         return HttpResponseRedirect(reverse('data:begin'))
     elif request.user.mturker.accepted == 0:
-        return redirect('unauthorized')
+        return redirect('data:unauthorized')
     if request.method == 'POST':
         mturkerform = MturkerForm(request.POST, instance=mturker)
         if mturkerform.is_valid():
             mturker.accepted = int(request.POST['accepted'])
             mturker.save()
+            return redirect('data:begin') if mturker.accepted else redirect('data:unauthorized')
     else:
         mturkerform = MturkerForm(instance=mturker)
     context = {
@@ -47,6 +48,35 @@ def info(request):
 @login_required(login_url='/login/')
 def begin(request):
     return render(request, 'data/main.html')
+
+@login_required(login_url='/login/')
+def task_entry(request):
+    task, entry = request.user.mturker.get_task()
+    if not task:
+        return redirect('data:complete')
+    TaskForm = modelform_factory(Task, fields=[field])
+    if request.method == "POST":
+        taskform = TaskForm(request.POST, instance=task)
+        if taskform.is_valid():
+            setattr(task, entry, request.POST[entry])
+            if entry == "text":
+                task.status = 1
+            if entry == "readable" and request.POST['readable'] == 0:
+                task.status = 1
+            task.save()
+            context = {'taskform': taskform}
+            return render(request, 'data/task_entry.html', context)
+    else:
+        taskform = TaskForm(instance=task)
+    context = {
+        'taskform': taskform,
+    }
+    return render(request, 'data/task_entry.html', context)
+
+def complete(request):
+    return render(request, 'data/complete.html')
+
+
 
 @login_required(login_url="/login/")
 def list_images(request):
@@ -87,7 +117,7 @@ def field_widget_callback(field):
     return forms.TextInput(attrs={'placeholder': field.name})
 
 @timeout_logging
-def task_entry(request, image_id):
+def task_entry2(request, image_id):
     inactive = 0
     task, created = Task.objects.get_or_create(image_id=image_id, user_id=request.user.id)
     TaskForm = modelform_factory(Task, exclude=['id', 'image', 'user', 'finished', 'timestarted', 'timefinished',])
