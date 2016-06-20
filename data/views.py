@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Image, Task, EventLog, WorkTimer, Mturker
 from django.forms.models import inlineformset_factory, modelform_factory
-from .decorators import timeout_logging
+from .decorators import check_verified
 from forms import MenuItemForm
 from django.db import models
 from django import forms
@@ -23,6 +23,7 @@ def index(request):
     return HttpResponseRedirect(reverse('data:info'))
 
 @login_required(login_url="/login/")
+@check_verified
 def info(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
@@ -46,33 +47,45 @@ def info(request):
 
 
 @login_required(login_url='/login/')
+@check_verified
 def begin(request):
     return render(request, 'data/main.html')
 
 @login_required(login_url='/login/')
+@check_verified
 def task_entry(request):
-    task, entry = request.user.mturker.get_task()
+    task, entry, completed = request.user.mturker.get_task()
     if not task:
         return redirect('data:complete')
-    TaskForm = modelform_factory(Task, fields=[field])
+    TaskForm = modelform_factory(Task, fields=[entry])
+    taskform = TaskForm(instance=task)
     if request.method == "POST":
         taskform = TaskForm(request.POST, instance=task)
         if taskform.is_valid():
             setattr(task, entry, request.POST[entry])
             if entry == "text":
                 task.status = 1
-            if entry == "readable" and request.POST['readable'] == 0:
+            if entry == "readable" and int(request.POST['readable']) == 0:
                 task.status = 1
+            task.order = completed
             task.save()
-            context = {'taskform': taskform}
-            return render(request, 'data/task_entry.html', context)
-    else:
-        taskform = TaskForm(instance=task)
+            taskform = TaskForm(instance=task)
+            context = {
+                'completed': completed,
+                'taskform': taskform,
+                'task': task,
+                }
+            return redirect('data:task_entry')
+        else:
+            taskform = TaskForm(instance=task)
     context = {
         'taskform': taskform,
+        'task': task,
+        'completed': completed,
     }
     return render(request, 'data/task_entry.html', context)
 
+@login_required(login_url='/login/')
 def complete(request):
     return render(request, 'data/complete.html')
 
@@ -112,48 +125,6 @@ def my_logout(request, *args, **kwargs):
     event = EventLog(user_id=request.user.id, name="logout", description=description)
     event.save()
     return auth_views.logout(request, next_page="/", extra_context={'message': 'logged out due to inactivity'})
-
-def field_widget_callback(field):
-    return forms.TextInput(attrs={'placeholder': field.name})
-
-@timeout_logging
-def task_entry2(request, image_id):
-    inactive = 0
-    task, created = Task.objects.get_or_create(image_id=image_id, user_id=request.user.id)
-    TaskForm = modelform_factory(Task, exclude=['id', 'image', 'user', 'finished', 'timestarted', 'timefinished',])
-    # Evaluate which form the post came from.  If from timer, then repopulate with request.DATA
-    # else save it per usual
-    if request.method == "POST":
-        taskform = TaskForm(request.POST, request.FILES, instance=task)
-        if request.POST['action'] == "save":
-            for f in fields:
-                val = request.POST[f]
-                if val != '':
-                    if f != 'street_nam' and f != 'city' and f != 'state':
-                        val = int(val)
-                    setattr(task,f, val)
-            task.save()
-            taskform = TaskForm(instance=task)
-        if request.POST['action'] == "submit":
-            if taskform.is_valid():
-                task.finished = 1
-                task.save()
-                return HttpResponseRedirect(reverse('data:images'))
-
-        if request.POST['action'] == "log":
-            inactive = 1
-
-    else:
-        taskform = TaskForm(instance=task)
-
-
-    context = {
-        'inactive': inactive,
-        'task': task,
-        'taskform': taskform,
-        'DEBUG': settings.DEBUG,
-    }
-    return render(request, "data/task_entry.html", context)
 
 @login_required(login_url="/login/")
 def log_event(request, image_id):

@@ -43,7 +43,9 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Mturker)
 class MtukerAdmin(admin.ModelAdmin):
-    list_display = ('accepted',)
+    list_display = ('get_username','accepted', 'verified',)
+    def get_username(self, i):
+        return i.user.username
 
 @admin.register(EventLog)
 class EventLog(admin.ModelAdmin):

@@ -14,20 +14,21 @@ class Mturker(models.Model):
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True)
     start = models.DateTimeField(null=True, blank=True)
-    batch = models.CharField(max_length=256)
+    batch = models.CharField(max_length=256, null=True)
 
     def get_task(self):
-        images = Images.filter(batch=self.batch)
+        images = Image.objects.filter(batch=self.batch)
         tasks = self.user.task_set.all()
         unfinished = tasks.filter(status=0)
         remaining = len(images)-len(tasks)
-        if len(unfinished)>0:
-            print "Number of unfinished tasks:",len(unfinished)
+        print "Number of remaining tasks:", remaining
+        print "Number of unfinished tasks:",len(unfinished)
+        if len(unfinished) > 0:
             current = unfinished[0]
-        elif len(unfinished) == 0:
+        if len(unfinished) == 0:
             for x in range(len(images)):
                 tempImage = random.choice(images)
-                current, created = Task.get_or_create(user_id=self.user.id, image_id=tempImage.id)
+                current, created = Task.objects.get_or_create(user_id=self.user.id, image_id=tempImage.id)
                 if created == True:
                     break
                 else:
@@ -36,13 +37,13 @@ class Mturker(models.Model):
             entry = False
         else:
             entry = "text" if current.readable else "readable"
-        return current, entry
+        return current, entry, len(tasks)
 
 
 
 class Image(models.Model):
     filename = models.CharField('Filename', max_length=512)
-    batch = models.CharField(max_length=256)
+    batch = models.CharField(max_length=256, null=True)
 
     def get_url(self):
         return "http://bfidata.s3-website-us-east-1.amazonaws.com/libraryimages/{}".format(self.filename)
@@ -67,12 +68,15 @@ class WorkTimer(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class Task(models.Model):
-
+    YESNO_CHOICES = (
+        (1, 'Yes'),
+        (0, 'No'),
+    )
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
 
-    readable = models.IntegerField(null=True)
-    text = models.TextField(null=True, blank=True)
+    readable = models.IntegerField(null=True, choices=YESNO_CHOICES)
+    text = models.TextField(null=True)
     order = models.IntegerField(null=True)
     status = models.IntegerField(default=0)
 

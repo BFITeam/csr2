@@ -26,6 +26,7 @@ window.onbeforeunload = function (event) {
         url:'/home_timer/',
         type:"POST",
         data: {
+            page: window.location.href,
             time: timeSpentOnPage,
             csrfmiddlewaretoken: '{{ csrf_token }}',
             token: generateUid(),

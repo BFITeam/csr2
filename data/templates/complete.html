@@ -4,18 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 page-header">
-            <h3>No tasks in the system</h3>
+            <h3>Complete</h3>
         </div>
     </div>
     <div class="row">
         <div class="col-md-8">
-            {% if message %}
-                <p>{{ message }}</p>
-                {% else %}
-                <p>There are no tasks currently assigned to this user.</p>
-                {% endif %}
+            <p>You have completed entering all the images</p>
         </div>
-        {% include "data/includes/info.html" %}
         {% include "includes/hometimer.html" %}
     </div>
 </div>

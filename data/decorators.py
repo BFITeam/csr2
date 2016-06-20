@@ -14,6 +14,14 @@ def check_for_spam(user_id, seconds):
     else:
         return False
 
+def check_verified(view_func):
+    def _wrapped_view_func(request, *args, **kwargs):
+        if not request.user.mturker.verified:
+            return render(request, 'data/unauthorized.html', {'message': "This access key has not yet been verified"})
+        else:
+            return view_func(request, *args, **kwargs)
+    return _wrapped_view_func
+
 def timeout_logging(view_func):
     def _wrapped_view_func(request, image_id=None, *args, **kwargs):
         if not request.user.is_authenticated():
