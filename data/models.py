@@ -20,7 +20,8 @@ class Mturker(models.Model):
         images = Image.objects.filter(batch=self.batch)
         tasks = self.user.task_set.all()
         unfinished = tasks.filter(status=0)
-        remaining = len(images)-len(tasks)
+        finished = tasks.filter(status=1)
+        remaining = len(images)-len(finished)
         print "Number of remaining tasks:", remaining
         print "Number of unfinished tasks:",len(unfinished)
         if len(unfinished) > 0:
