@@ -3,20 +3,58 @@
 {% block content %}
 
 <div class="container">
-    <p>{{ description }}</p>
     <div class="row">
-        <div class="col-sm-4 col-md-4">
+        <div class="col-md-10 page-header">
+            <h3>About the task and payment</h3>
+        </div>
+    </div>
+    {% if request.user.mturker.sorting %}
+    <div class="row">
+        <div class="col-md-10">
+            <h3>We would like to start by sharing some information with you about our firm’s philanthropic mission:</h3>
+            <p>Our firm is committed to give back in meaningful ways. We are passionate about encouraging education for the next generation. We do our part by donating money to influential non-profit organizations that support education for children from low socioeconomic backgrounds. {{ Constants.number_of_subjects }} individuals like you are helping us with specific project. In keeping with our philanthropic mission, we donate the equivalent of {{ request.user.mturker.wagebill }}% of our wage bill for in cash on behalf of all workers who help us with this project to {{ Constants.charity }} charity [which supports child.]."</p>
+            <h3>Now, more information about the task and payment:</h3>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-10">
+            <p>This HIT requires you to transcribe short texts which have been scanned from German documents.</p>
+            <ul>
+                <li>You will receive $XXX bonus for working on 100 images.</li>
+                <li>This payment will be paid to you as an extra bonus on your M-turk account.</li>
+                <li>This $XXX will ONLY be paid if go through all 100 images. If you decide to quit half way through, we will not be able to pay you the $XXX</li>
+                <li>It is possible that some of these 100 images are too blurry to be readable. Reporting those as unreadable is acceptable and will NOT reduce your bonus payment.</li>
+                <li>To the top right of this page you see your personal CODE. Please submit this personal CODE to Amazon M-turk in order to complete this assignment.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <p><b>Please read the instructions carefully</b></p>
+            {% include 'data/includes/instructions.html' %}
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3></h3>
+            <p>You now have the option to choose if you want to earn your $0.10 reward for accepting the HIT and exit; or you would like to transcribe 100 images for us and earn an extra $XXX bonus.</p>
+            <p>NOTE: <u>The bonus will ONLY be paid if go through all 100 images. If you decide to quit half way through, we will not be able to pay you any bonus</u>.</p>
+            <p>Please choose one of the following options:</p>
+        </div>
+        <div class="col-sm-4 col-md-4 col-sm-offset-1">
             <form action="/info/" method="post">
-                {% csrf_token %}
-                <input type="hidden" id="id_accepted" name="accepted" value="1">
-                <input type="submit" class="btn btn-defualt" value="Accept" />
+                {% csrf_token %}<h2></h2>
+                <input type="hidden" id="id_accepted" name="accepted" value="0">
+                <input type="submit" class="btn btn-defualt" value="I do NOT want to transcribe images" />
             </form>
         </div>
         <div class="col-sm-4 col-md-4">
             <form action="/info/" method="post">
-                {% csrf_token %}
-                <input type="hidden" id="id_accepted" name="accepted" value="0">
-                <input type="submit" class="btn btn-defualt" value="Reject" />
+                {% csrf_token %}<h2></h2>
+                <input type="hidden" id="id_accepted" name="accepted" value="1">
+                <input type="submit" class="btn btn-defualt" value="I want to work on all 100 images" />
             </form>
         </div>
     </div><!-- /.row -->

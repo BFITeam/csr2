@@ -4,15 +4,21 @@ from django.utils import timezone
 import uuid
 import random
 
+class Constants:
+    number_of_subjects = 60
+    charity = "Unicef"
+
 def get_now():
     return timezone.now()
 # Create your models here.
 
 class Mturker(models.Model):
     user = models.OneToOneField(User)
-    treatment = models.CharField(max_length=256, null=True)
+    wage = models.CharField(max_length=64, null=True, blank=True)
+    wagebill = models.CharField(max_length=64, null=True, blank=True)
+    sorting = models.NullBooleanField()
     verified = models.IntegerField(default=0)
-    accepted = models.IntegerField(null=True)
+    accepted = models.IntegerField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     batch = models.CharField(max_length=256, null=True)
 
