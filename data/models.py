@@ -69,7 +69,7 @@ class Image(models.Model):
 class WorkTimer(models.Model):
     user = models.ForeignKey(User)
     task = models.ForeignKey("Task", null=True)
-    page = models.CharField(max_length=28, null=True)
+    page = models.CharField(max_length=128, null=True)
     value = models.IntegerField()
     token = models.CharField(max_length=256)
     timestamp = models.DateTimeField(auto_now_add=True)

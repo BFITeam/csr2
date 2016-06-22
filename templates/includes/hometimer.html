@@ -3,11 +3,14 @@
 <script src="{% static 'js/ifvisible.js' %}"></script>
 <script src="{% static 'js/timeme.js' %}"></script>
 
+<input type="hidden" id="taskIdJs" value="{{ task.id }}"/>
 <script type="text/javascript">
 
 TimeMe.setIdleDurationInSeconds(60);
 TimeMe.setCurrentPageName("assigments");
 TimeMe.initialize();
+
+var task = document.getElementById('taskIdJs');
 
 var generateUid = function (separator) {
     var delim = separator || "-";
@@ -30,6 +33,7 @@ window.onbeforeunload = function (event) {
             time: timeSpentOnPage,
             csrfmiddlewaretoken: '{{ csrf_token }}',
             token: generateUid(),
+            task : task.value,
         }
     });
 };
