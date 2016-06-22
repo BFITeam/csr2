@@ -19,7 +19,7 @@ class Mturker(models.Model):
     sorting = models.NullBooleanField()
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
-    start = models.DateTimeField(null=True, blank=True)
+    start = models.DateTimeField(default=get_now)
     batch = models.CharField(max_length=256, null=True)
 
     def get_task(self):

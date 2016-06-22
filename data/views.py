@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Image, Task, EventLog, WorkTimer, Mturker
+from .models import Image, Task, EventLog, WorkTimer, Mturker, Constants
 from django.forms.models import inlineformset_factory, modelform_factory
 from .decorators import check_verified
 from forms import MenuItemForm
@@ -40,7 +40,7 @@ def info(request):
     else:
         mturkerform = MturkerForm(instance=mturker)
     context = {
-        'description': "You are going to work on something",
+        'Constants': Constants,
         'mturkerform': mturkerform,
     }
     return render(request, 'data/description.html', context)
@@ -49,7 +49,10 @@ def info(request):
 @login_required(login_url='/login/')
 @check_verified
 def begin(request):
-    return render(request, 'data/main.html')
+    context = {
+        'Constants': Constants,
+        }
+    return render(request, 'data/main.html', context)
 
 @login_required(login_url='/login/')
 @check_verified
