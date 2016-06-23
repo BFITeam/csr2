@@ -23,7 +23,7 @@ class Mturker(models.Model):
     batch = models.CharField(max_length=256, null=True)
 
     def get_task(self):
-        images = Image.objects.filter(batch=self.batch)
+        images = Image.objects.filter(batch=self.batch).order_by('?')
         tasks = self.user.task_set.all()
         unfinished = tasks.filter(status=0)
         finished = tasks.filter(status=1)
@@ -34,7 +34,7 @@ class Mturker(models.Model):
             current = unfinished[0]
         if len(unfinished) == 0:
             for x in range(len(images)):
-                tempImage = random.choice(images)
+                tempImage = images[x]
                 current, created = Task.objects.get_or_create(user_id=self.user.id, image_id=tempImage.id)
                 if created == True:
                     break
