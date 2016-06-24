@@ -6,7 +6,7 @@ import random
 
 class Constants:
     number_of_subjects = 60
-    charity = "Unicef"
+    charity = "UNICEF"
 
 def get_now():
     return timezone.now()
@@ -20,10 +20,12 @@ class Mturker(models.Model):
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
     start = models.DateTimeField(default=get_now)
-    batch = models.CharField(max_length=256, null=True)
+    blur = models.CharField(max_length=256, null=True)
+    mturkid = models.CharField(max_length=256, null=True, blank=True)
+    batch = models.CharField(max_length=128, null=True, blank=True)
 
     def get_task(self):
-        images = Image.objects.filter(batch=self.batch).order_by('?')
+        images = Image.objects.filter(blur=self.blur).order_by('?')
         tasks = self.user.task_set.all()
         unfinished = tasks.filter(status=0)
         finished = tasks.filter(status=1)
@@ -50,7 +52,7 @@ class Mturker(models.Model):
 
 class Image(models.Model):
     filename = models.CharField('Filename', max_length=512)
-    batch = models.CharField(max_length=256, null=True)
+    blur = models.CharField(max_length=256, null=True)
 
     def get_url(self):
         return "http://bfidata.s3-website-us-east-1.amazonaws.com/libraryimages/{}".format(self.filename)
