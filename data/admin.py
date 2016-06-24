@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import WorkTimer, Task, EventLog, Mturker
+from .models import WorkTimer, Task, EventLog, Mturker, TreatmentCell
 from django.contrib.auth.models import User
 import user_patch
 # Register your models here.
@@ -48,8 +48,13 @@ class MtukerAdmin(admin.ModelAdmin):
         return i.user.username
 
 @admin.register(EventLog)
-class EventLog(admin.ModelAdmin):
+class EventLogAdmin(admin.ModelAdmin):
     list_display = ('get_username', 'name', 'user_id', 'timestamp',)
 
     def get_username(self, x):
         return x.user.username
+
+@admin.register(TreatmentCell)
+class TreatmentCellAdmin(admin.ModelAdmin):
+    list_display = ('treatment', 'batch', 'blur', 'finished')
+

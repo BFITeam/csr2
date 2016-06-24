@@ -7,6 +7,28 @@ import random
 class Constants:
     number_of_subjects = 60
     charity = "UNICEF"
+    treatments = {
+        'T0_NoSort':{
+            'sorting': False,
+            'wage': '12',
+            'wagebill': '0',
+            },
+        'TN_CSR_High_Sort':{
+            'sorting': True,
+            'wage': '12',
+            'wagebill': '10',
+            },
+        'TN_CSR_High_NoSort':{
+            'sorting': False,
+            'wage': '12',
+            'wagebill': '10'
+            },
+        'TM-Wage_Low_Sort':{
+            'sorting': True,
+            'wage': '10.80',
+            'wagebill': '1.20',
+            },
+    }
 
 def get_now():
     return timezone.now()
@@ -23,6 +45,8 @@ class Mturker(models.Model):
     blur = models.CharField(max_length=256, null=True)
     mturkid = models.CharField(max_length=256, null=True, blank=True)
     batch = models.CharField(max_length=128, null=True, blank=True)
+    treatment = models.CharField(max_length=128, null=True, blank=True)
+    treatmentcell = models.ForeignKey('TreatmentCell', null=True)
 
     def get_task(self):
         images = Image.objects.filter(blur=self.blur).order_by('?')
@@ -46,6 +70,10 @@ class Mturker(models.Model):
             entry = False
         else:
             entry = "text" if current.readable else "readable"
+
+        if current == False:
+            self.treatmentcell.finished = 1
+            self.treatmentcell.save()
         return current, entry, len(tasks)
 
 
@@ -107,5 +135,10 @@ class EventLog(models.Model):
     description = models.CharField(max_length=512, blank=True)
     timestamp = models.DateTimeField(default=get_now)
 
+class TreatmentCell(models.Model):
+    blur = models.CharField(max_length=256)
+    treatment = models.CharField(max_length=256)
+    finished = models.BooleanField(default=0)
+    batch = models.CharField(max_length=128)
 
 
