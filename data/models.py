@@ -48,6 +48,21 @@ class Mturker(models.Model):
     treatment = models.CharField(max_length=128, null=True, blank=True)
     treatmentcell = models.ForeignKey('TreatmentCell', null=True)
 
+    def assign_treatmentcell(self, tcId, mturkid):
+        if not self.treatmentcell:
+            tc = TreatmentCell.objects.get(id=tcId)
+            self.treatmentcell_id = tcId
+            self.verified = 1
+            self.mturkid = mturkid
+            self.batch = tc.batch
+            self.treatment = tc.treatment
+            self.wage = Constants.treatments[self.treatment]['wage']
+            self.blur = tc.blur
+            self.wagebill = Constants.treatments[self.treatment]['wagebill']
+            self.sorting = Constants.treatments[self.treatment]['sorting']
+            self.save()
+
+
     def get_task(self):
         images = Image.objects.filter(blur=self.blur).order_by('?')
         tasks = self.user.task_set.all()
@@ -143,6 +158,6 @@ class TreatmentCell(models.Model):
 
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 

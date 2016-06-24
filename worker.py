@@ -41,7 +41,7 @@ for response in responses:
             continue
         else:
             tc = TreatmentCell.objects.filter(batch='ra').filter(finished=0).order_by('?')[0]
-            Mturker.objects.filter(user_id=user.id).filter(treatmentcell=None).update(verified=1, mturkid=response['workerId'], treatmentcell_id=tc.id)
+            mturker.assign_treatmentcell(tc.id, response['workerId'])
             response['verified'] = 1
 
 #assignments = [a.answers[0][0].fields[0] for a in mturk.get_assignments('3TRB893CSJVXBXOSIRQD01OSYEYG7T')]

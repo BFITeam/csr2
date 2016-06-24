@@ -42,7 +42,7 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = ['user__username']
 
 @admin.register(Mturker)
-class MtukerAdmin(admin.ModelAdmin):
+class MturkerAdmin(admin.ModelAdmin):
     list_display = ('get_username','accepted', 'verified',)
     def get_username(self, i):
         return i.user.username
