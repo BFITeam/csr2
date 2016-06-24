@@ -19,27 +19,30 @@ mturk = boto.mturk.connection.MTurkConnection(
 #hitid = '3MID1PD49GG1TQTVAIOMOK6RKJUKWX'
 #hitid = '3TRB893CSJVXBXOSIRQD01OSYEYG7T'
 responses = []
-for hitid in mturk.get_reviewable_hits():
-    print hitid.HITId
+for hitid in mturk.get_all_hits():
+    #print hitid.HITId
     for assignment in mturk.get_assignments(hitid.HITId):
         answers = assignment.answers[0]
         for a in answers:
             if a.qid == "AccessCode":
+                print a.fields[0]
                 responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0]))
 
 for response in responses:
+    print response
     try:
-        user = User.object.get(username=response['access_key'])
+        user = User.objects.get(username=response['access_key'])
     except ObjectDoesNotExist:
         r['verified'] = 0
     else:
-        exists = Mturker.objects.filter(mturkerid=response.workerId)
+        mturker, created = Mturker.objects.get_or_create(user_id=user.id)
+        exists = Mturker.objects.filter(mturkid=response['workerId'])
         if len(exists) > 0:
             continue
         else:
-            tc = TreatmentCell.objects.filter(batch=user.mturker.batch).filter(finisished=0).order_by('?')[0]
-            Mtuker.objects.filter(user_id=user.id).filter(treatmentcell=None).update(verified=1, mturkerid=response.workerId, treatmentcell_id=tc.id)
-            r['verified'] = 1
+            tc = TreatmentCell.objects.filter(batch='ra').filter(finished=0).order_by('?')[0]
+            Mturker.objects.filter(user_id=user.id).filter(treatmentcell=None).update(verified=1, mturkid=response['workerId'], treatmentcell_id=tc.id)
+            response['verified'] = 1
 
 #assignments = [a.answers[0][0].fields[0] for a in mturk.get_assignments('3TRB893CSJVXBXOSIRQD01OSYEYG7T')]
 #print assignments
