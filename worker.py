@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from data.models import TreatmentCell, Mturker
 import os
 from django.core.exceptions import ObjectDoesNotExist
+import logging
+logging.basicConfig()
+
 
 sandbox_host = 'mechanicalturk.sandbox.amazonaws.com'
 real_host = 'mechanicalturk.amazonaws.com'
