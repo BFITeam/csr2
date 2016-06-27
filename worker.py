@@ -34,15 +34,15 @@ def job():
         except ObjectDoesNotExist:
             r['verified'] = 0
         else:
-            print response
-            mturker, created = Mturker.objects.get_or_create(user_id=user.id)
             exists = Mturker.objects.filter(mturkid=response['workerId'])
             if len(exists) > 0:
+                print "Already assigned"
                 continue
             else:
+                print response
+                mturker, created = Mturker.objects.get_or_create(user_id=user.id)
                 tc = TreatmentCell.objects.filter(batch='ra').filter(finished=0).order_by('?')[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'])
-                response['verified'] = 1
 
 
 
