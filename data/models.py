@@ -62,8 +62,15 @@ class Mturker(models.Model):
             self.sorting = Constants.treatments[self.treatment]['sorting']
             self.save()
 
+    def check_finished(self):
+        if len(self.user.task_set.filter(status=1)) == 100:
+            return True
+        else:
+            return False
+
 
     def get_task(self):
+        current = False
         images = Image.objects.filter(blur=self.blur).order_by('?')
         tasks = self.user.task_set.all()
         unfinished = tasks.filter(status=0)
@@ -87,11 +94,16 @@ class Mturker(models.Model):
             entry = "text" if current.readable else "readable"
 
         if current == False:
-            self.treatmentcell.finished = 1
-            self.treatmentcell.save()
+            try:
+                self.treatmentcell.finished = 1
+                self.treatmentcell.save()
+            except AttributeError:
+                pass
         return current, entry, len(tasks)
 
-
+    def get_hours(self):
+        worktimers = self.user.worktimer_set.all()
+        return sum([x.value for x in worktimers])
 
 class Image(models.Model):
     filename = models.CharField('Filename', max_length=512)
