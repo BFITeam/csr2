@@ -43,7 +43,8 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Mturker)
 class MturkerAdmin(admin.ModelAdmin):
-    list_display = ('get_username','accepted', 'verified', 'get_hours', 'complete')
+    list_display = ('get_username','accepted', 'verified', 'get_hours', 'complete', 'start',)
+    list_filter = ['start']
     def get_username(self, i):
         return i.user.username
 
