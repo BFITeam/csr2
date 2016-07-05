@@ -11,7 +11,7 @@ logging.basicConfig()
 
 sandbox_host = 'mechanicalturk.sandbox.amazonaws.com'
 real_host = 'mechanicalturk.amazonaws.com'
-
+_BATCH = 'ra'
 
 mturk = boto.mturk.connection.MTurkConnection(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
@@ -35,7 +35,7 @@ def job():
         try:
             user = User.objects.get(username=response['access_key'])
         except ObjectDoesNotExist:
-            r['verified'] = 0
+            response['verified'] = 0
         else:
             exists = Mturker.objects.filter(mturkid=response['workerId'])
             if len(exists) > 0:
@@ -44,7 +44,7 @@ def job():
             else:
                 print response
                 mturker, created = Mturker.objects.get_or_create(user_id=user.id)
-                tc = TreatmentCell.objects.filter(batch='ra').filter(finished=0).order_by('?')[0]
+                tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'])
 
 
