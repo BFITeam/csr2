@@ -169,6 +169,8 @@ class TreatmentCell(models.Model):
     finished = models.BooleanField(default=0)
     batch = models.CharField(max_length=128)
 
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return self.treatment
