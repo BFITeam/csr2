@@ -7,6 +7,7 @@ import random
 class Constants:
     number_of_subjects = 60
     charity = "UNICEF"
+    charity_url = "https://www.unicefusa.org/"
     treatments = {
         'T0_NoSort':{
             'sorting': False,
