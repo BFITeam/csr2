@@ -11,7 +11,7 @@
         {% include "data/includes/info.html" %}
         <div class="col-sm-8 col-sm-pull-4">
             <p>Thank you for helping us with this transcription task.</p>
-        {% if not request.user.mturker.sorting %}
+        {% if not request.user.mturker.sorting and request.user.mturker.treatment != "T0_NoSort" %}
             <h3>Before you start, we would like to share some information with you about our firm’s philanthropic mission:</h3>
             <p>Our firm is committed to give back in meaningful ways. We are passionate about encouraging education for the next generation. We do our part by donating money to influential non-profit organizations that support education for children from low socioeconomic backgrounds. {{ Constants.number_of_subjects }} individuals like you are helping us with this specific project. In keeping with our philanthropic mission, we donate the equivalent of{% if request.user.mturker.treatment == "TM-Wage_Low_Sort" or request.user.mturker.treatment == 'TM-Wage_High_Sort' %} {{ request.user.mturker.wagebill }} in cash on behalf of each worker who helps us with the project to {{ Constants.charity }} Education Programs.  {% else %} {{ request.user.mturker.wagebill }}% of our wage bill in cash on behalf of all workers who help us with this project to {{ Constants.charity }} Education Programs. {% endif %}  {{ Constants.charity }} works tirelessly to ensure that every child—regardless of gender, ethnicity or circumstances—has access to a quality education. You may find out more about {{ Constants.charity }} Education Programs at: <a href="{{ Constants.charity_url }}">{{ Constants.charity }}</a>.</p>
         {% endif %}
