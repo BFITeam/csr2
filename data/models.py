@@ -42,7 +42,7 @@ class Mturker(models.Model):
     sorting = models.NullBooleanField()
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
-    start = models.DateTimeField(default=ret_now)
+    start = models.DateTimeField(default=get_now)
     blur = models.CharField(max_length=256, null=True)
     mturkid = models.CharField(max_length=256, null=True, blank=True)
     batch = models.CharField(max_length=128, null=True, blank=True)
@@ -66,6 +66,7 @@ class Mturker(models.Model):
     def check_finished(self):
         if len(self.user.task_set.filter(status=1)) == 100:
             return True
+
         else:
             return False
 
@@ -140,7 +141,7 @@ class Task(models.Model):
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
 
-    readable = models.IntegerField("Is this image readable?", null=True, choices=YESNO_CHOICES)
+    readable = models.IntegerField(null=True, choices=YESNO_CHOICES)
     text = models.TextField(null=True)
     order = models.IntegerField(null=True)
     status = models.IntegerField(default=0)
