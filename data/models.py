@@ -140,7 +140,7 @@ class Task(models.Model):
     user = models.ForeignKey(User)
     image = models.ForeignKey(Image)
 
-    readable = models.IntegerField(null=True, choices=YESNO_CHOICES)
+    readable = models.IntegerField("Is this image readable?", null=True, choices=YESNO_CHOICES)
     text = models.TextField(null=True)
     order = models.IntegerField(null=True)
     status = models.IntegerField(default=0)
