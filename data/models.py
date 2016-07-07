@@ -42,7 +42,7 @@ class Mturker(models.Model):
     sorting = models.NullBooleanField()
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
-    start = models.DateTimeField(default=get_now)
+    start = models.DateTimeField(default=ret_now)
     blur = models.CharField(max_length=256, null=True)
     mturkid = models.CharField(max_length=256, null=True, blank=True)
     batch = models.CharField(max_length=128, null=True, blank=True)
