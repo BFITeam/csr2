@@ -48,6 +48,7 @@ class Mturker(models.Model):
     batch = models.CharField(max_length=128, null=True, blank=True)
     treatment = models.CharField(max_length=128, null=True, blank=True)
     treatmentcell = models.ForeignKey('TreatmentCell', null=True)
+    instructionsCount = models.IntegerField(default=0)
 
     def assign_treatmentcell(self, tcId, mturkid):
         if not self.treatmentcell:
@@ -62,6 +63,10 @@ class Mturker(models.Model):
             self.wagebill = Constants.treatments[self.treatment]['wagebill']
             self.sorting = Constants.treatments[self.treatment]['sorting']
             self.save()
+
+    def increment_counter(self):
+        self.instructionsCount += 1
+        self.save()
 
     def check_finished(self):
         if len(self.user.task_set.filter(status=1)) == 100:

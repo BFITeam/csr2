@@ -20,14 +20,29 @@
 </div>
 
 <input type="hidden" id="clickmodalinfo" value="{{ clickmodal }}">
+<input type="hidden" id="userIdForCount" value="{{ request.user.id }}">
 
 <script>
 var modalBtn = document.getElementById('modalBtnInfo')
 var clickmodal = document.getElementById('clickmodalinfo').value
+var userId = document.getElementById('userIdForCount').value
 
 $(document).ready( function () {
     if (clickmodal == "yes")
         $(modalBtn).click()
+
+    $(modalBtn).click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url:'/instructions_counter/',
+            type:"POST",
+            data: {
+                uid: userId,
+                //Cross Site Request Forgery protection used on backend of form submissions
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            }
+        });
+    });
 });
 
 </script>

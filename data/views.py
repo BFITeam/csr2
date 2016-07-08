@@ -150,6 +150,13 @@ def home_timer(request):
     response = HttpResponse()
     return response
 
+@csrf_protect
+def instructions_counter(request):
+    user = User.objects.get(id=request.POST['uid'])
+    user.mturker.increment_counter()
+    response = HttpResponse()
+    return response
+
 def unauthorized(request):
     return render(request, 'data/unauthorized.html')
 
