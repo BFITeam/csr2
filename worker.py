@@ -6,6 +6,7 @@ from data.models import TreatmentCell, Mturker
 import os
 from django.core.exceptions import ObjectDoesNotExist
 import logging
+import time
 logging.basicConfig()
 
 
@@ -21,7 +22,7 @@ mturk = boto.mturk.connection.MTurkConnection(
 )
 
 def job():
-
+    start = time.time()
     responses = []
     for hitid in mturk.get_all_hits():
     #print hitid.HITId
@@ -47,6 +48,8 @@ def job():
                 tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'])
 
+
+    print "MTURK API Runtime: {}".format((time.time() - start))
 
 
 if __name__ == "__main__":
