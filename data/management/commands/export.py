@@ -24,7 +24,15 @@ class Command(BaseCommand):
             headers = self.get_headers(model)
             writer.writerow(headers)
             for obj in model.objects.all():
-                row = [getattr(obj, h) for h in headers]
+                row = []
+                for h in headers:
+                    if h == "text":
+                        try:
+                            row.append(getattr(obj, h).encode('utf8', 'replace'))
+                        except AttributeError:
+                            row.append(" ")
+                    else:
+                        row.append(getattr(obj,h))
                 writer.writerow(row)
 
     def handle(self, *args, **options):
