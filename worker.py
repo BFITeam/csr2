@@ -40,7 +40,6 @@ def job():
         else:
             exists = Mturker.objects.filter(mturkid=response['workerId'])
             if len(exists) > 0:
-                print "Already assigned"
                 continue
             else:
                 print response
