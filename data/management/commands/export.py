@@ -22,7 +22,11 @@ class Command(BaseCommand):
         with open(filename, 'w') as f:
             writer = csv.writer(f, csv.excel)
             headers = self.get_headers(model)
-            writer.writerow(headers)
+            if model._meta.object_name == "Task":
+                supHeaders = ['mtrukid', 'treatment', 'clicks', 'finished', 'accepted']
+            else:
+                supHeaders = []
+            writer.writerow(headers + supHeaders)
             for obj in model.objects.all():
                 row = []
                 for h in headers:
@@ -33,6 +37,13 @@ class Command(BaseCommand):
                             row.append(" ")
                     else:
                         row.append(getattr(obj,h))
+                if model._meta.object_name == "Task":
+                    mturkid = obj.user.mturker.mturkid
+                    treatment = obj.user.mturker.treatment
+                    clicks = obj.user.mturker.instructionsCount
+                    finished = obj.user.mturker.check_finished()
+                    accepted = obj.user.mturker.accepted
+                    row += [mturkid, treatment, clicks, finished, accepted]
                 writer.writerow(row)
 
     def handle(self, *args, **options):
