@@ -1,8 +1,11 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from data.models import Task, WorkTimer, EventLog, Image
+from request.models import Request
 from django.conf import settings
 import csv, os
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class Command(BaseCommand):
     help = "Exports task and tracking data"
@@ -23,7 +26,9 @@ class Command(BaseCommand):
             writer = csv.writer(f, csv.excel)
             headers = self.get_headers(model)
             if model._meta.object_name == "Task":
-                supHeaders = ['mtrukid', 'treatment', 'clicks', 'finished', 'accepted']
+                supHeaders = ['mturkid', 'treatment', 'clicks', 'finished', 'accepted']
+            elif model._meta.object_name == "User":
+                supHeaders = ['info', 'mturkid', 'verified']
             else:
                 supHeaders = []
             writer.writerow(headers + supHeaders)
@@ -44,6 +49,24 @@ class Command(BaseCommand):
                     finished = obj.user.mturker.check_finished()
                     accepted = obj.user.mturker.accepted
                     row += [mturkid, treatment, clicks, finished, accepted]
+
+                if model._meta.object_name == "User":
+                    requests = obj.request_set.all()
+                    info = 0
+                    for r in requests:
+                        if "info" in r.path:
+                            info = 1
+                            break
+                    try:
+                        mturkid = obj.mturker.mturkid
+                        verified = obj.mturker.verified
+                    except ObjectDoesNotExist:
+                        mturkid = "NONE"
+                        verified = "NONE"
+                    row += [info, mturkid, verified]
+
+
+
                 writer.writerow(row)
 
     def handle(self, *args, **options):
@@ -51,20 +74,22 @@ class Command(BaseCommand):
         if not os.path.isdir(exportDir):
             os.mkdir(exportDir)
 
-        taskFile = os.path.join(exportDir, 'task.csv')
-        self.write_csv(taskFile, Task)
+        #taskFile = os.path.join(exportDir, 'task.csv')
+        #self.write_csv(taskFile, Task)
 
-        eventFile = os.path.join(exportDir, 'eventlog.csv')
-        self.write_csv(eventFile, EventLog)
+        #eventFile = os.path.join(exportDir, 'eventlog.csv')
+        #self.write_csv(eventFile, EventLog)
 
-        workFile = os.path.join(exportDir, 'worktimer.csv')
-        self.write_csv(workFile, WorkTimer)
+        #workFile = os.path.join(exportDir, 'worktimer.csv')
+        #self.write_csv(workFile, WorkTimer)
 
         userFile = os.path.join(exportDir, "user.csv")
         self.write_csv(userFile, User)
 
         #imageFile = os.path.join(exportDir, "image.csv")
         #self.write_csv(imageFile, Image)
+
+
 
 
 
