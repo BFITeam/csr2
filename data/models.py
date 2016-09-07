@@ -6,6 +6,7 @@ import random
 
 class Constants:
     number_of_subjects = 60
+    batchLength = 5
     charity = "UNICEF"
     charity_url = "https://www.unicefusa.org/"
     treatments = {
@@ -37,18 +38,37 @@ def get_now():
 
 class Mturker(models.Model):
     user = models.OneToOneField(User)
-    wage = models.CharField(max_length=64, null=True, blank=True)
-    wagebill = models.CharField(max_length=64, null=True, blank=True)
-    sorting = models.NullBooleanField()
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
     start = models.DateTimeField(default=get_now)
-    blur = models.CharField(max_length=256, null=True)
     mturkid = models.CharField(max_length=256, null=True, blank=True)
+    assignmentId = models.CharField(max_length=256, null=True, blank=True)
     batch = models.CharField(max_length=128, null=True, blank=True)
-    treatment = models.CharField(max_length=128, null=True, blank=True)
     treatmentcell = models.ForeignKey('TreatmentCell', null=True)
     instructionsCount = models.IntegerField(default=0)
+
+    upfront_payment = models.CharField(max_length=128)
+    upfront_payment_bool = models.BooleanField(default=0)
+    end_payment = models.CharField(max_length=128)
+    end_payment_bool = models.BooleanField(default=0)
+
+    imageRound = models.IntegerField(default=0)
+
+    finished = models.BooleanField(default=0)
+
+    def get_payment_values(self):
+        tc = self.treatementcell
+        if tc.upfront == 0:
+            upfront = 0
+            self.upfront_payment_bool = 1
+        else:
+            upfront = float(tc.upfront)/100 * int(tc.wage)
+        if tc.treatment == "endog" and self.finsihed == 1:
+            final_payment = (100 - float(tc.upfront))/100 * int(tc.wage)
+            final_payment = int(len(self.task_set.filter(finished=1)))/Constants.batchLength * final_payment
+            self.end_payment = final_payment
+        self.upfront_payment = upfront
+        self.save()
 
     def assign_treatmentcell(self, tcId, mturkid):
         if not self.treatmentcell:
@@ -56,12 +76,7 @@ class Mturker(models.Model):
             self.treatmentcell_id = tcId
             self.verified = 1
             self.mturkid = mturkid
-            self.batch = tc.batch
-            self.treatment = tc.treatment
-            self.wage = Constants.treatments[self.treatment]['wage']
-            self.blur = tc.blur
-            self.wagebill = Constants.treatments[self.treatment]['wagebill']
-            self.sorting = Constants.treatments[self.treatment]['sorting']
+            self.assignmentId = assignmentId
             self.save()
 
     def increment_counter(self):
@@ -69,12 +84,10 @@ class Mturker(models.Model):
         self.save()
 
     def check_finished(self):
-        if len(self.user.task_set.filter(status=1)) == 100:
+        if len(self.user.task_set.filter(status=1)) == batchLength:
             return True
-
         else:
             return False
-
 
     def get_task(self):
         current = False
@@ -99,7 +112,6 @@ class Mturker(models.Model):
             entry = False
         else:
             entry = "text" if current.readable else "readable"
-
         if current == False:
             try:
                 self.treatmentcell.finished = 1
@@ -174,6 +186,11 @@ class TreatmentCell(models.Model):
     treatment = models.CharField(max_length=256)
     finished = models.BooleanField(default=0)
     batch = models.CharField(max_length=128)
+    upfront = models.IntegerField()
+    sorting = models.NullBooleanField()
+    wage = models.CharField(max_length=128)
+    wagebill = models.CharField(max_length=128)
+    csr = models.NullBooleanField()
 
     class Meta:
         ordering = ['id']

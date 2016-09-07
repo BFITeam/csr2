@@ -17,7 +17,7 @@ _BATCH = 'pilot'
 mturk = boto.mturk.connection.MTurkConnection(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
-    host = real_host,
+    host = sandbox_host,
     debug=1
 )
 
@@ -30,7 +30,7 @@ def job():
             answers = assignment.answers[0]
             for a in answers:
                 if a.qid == "AccessCode":
-                    responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0]))
+                    responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0], assignmentId=assignment.AssignmentId))
 
     for response in responses:
         try:
@@ -45,7 +45,7 @@ def job():
                 print response
                 mturker, created = Mturker.objects.get_or_create(user_id=user.id)
                 tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
-                mturker.assign_treatmentcell(tc.id, response['workerId'])
+                mturker.assign_treatmentcell(tc.id, response['workerId'], response['assigmentId'])
 
 
     print "MTURK API Runtime: {}".format((time.time() - start))

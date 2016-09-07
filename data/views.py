@@ -14,6 +14,8 @@ import user_patch
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User
 import uuid
+from boto.mturk.price import Price
+from worker import mturk
 # Create your views here.
 
 @login_required(login_url="/login/")
@@ -26,8 +28,16 @@ def index(request):
 @check_verified
 def info(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
+    mturker.get_payments_values()
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
-    if request.user.mturker.accepted == 1:
+    if mturker.accepted == 1:
+        if mturker.upfront_payment_bool == 0:
+            print "Sending upfront bonus"
+            #Pay them using boto and update upfront_payment_bool
+            price = Price(amount=float(request.user.mturker.upfront_payment, currency_code="USD")
+            mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price)
+            mturker.upfront_payment_bool = 1
+            mturker.save()
         return HttpResponseRedirect(reverse('data:begin'))
     elif request.user.mturker.accepted == 0:
         return redirect('data:unauthorized')
@@ -40,6 +50,8 @@ def info(request):
     else:
         mturkerform = MturkerForm(instance=mturker)
     context = {
+    if request.user.mturker.accepted == 1:
+        if request.user.mturker.upfront_payment_bool == 0;
         'Constants': Constants,
         'mturkerform': mturkerform,
     }
@@ -91,26 +103,6 @@ def task_entry(request):
 @login_required(login_url='/login/')
 def complete(request):
     return render(request, 'data/complete.html')
-
-
-
-@login_required(login_url="/login/")
-def list_images(request):
-    try:
-        referer = request.META["HTTP_REFERER"]
-    except KeyError:
-        referer = "DNE"
-    if "/login/" in referer:
-        clickmodal = "yes"
-    else:
-        clickmodal = None
-    images = request.user.get_tasks()
-    context = {
-        'images': images,
-        'clickmodal': clickmodal,
-    }
-    return render(request, "data/images.html", context)
-
 
 def my_login(request, *args, **kwargs):
     kwargs = {'template_name': "login.html",}
