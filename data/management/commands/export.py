@@ -28,7 +28,7 @@ class Command(BaseCommand):
             if model._meta.object_name == "Task":
                 supHeaders = ['mturkid', 'treatment', 'clicks', 'finished', 'accepted']
             elif model._meta.object_name == "User":
-                supHeaders = ['info', 'mturkid', 'verified']
+                supHeaders = ['info', 'mturkid', 'verified', 'treatment']
             else:
                 supHeaders = []
             writer.writerow(headers + supHeaders)
@@ -60,10 +60,12 @@ class Command(BaseCommand):
                     try:
                         mturkid = obj.mturker.mturkid
                         verified = obj.mturker.verified
+                        treatment = obj.mturker.treatment
                     except ObjectDoesNotExist:
                         mturkid = "NONE"
                         verified = "NONE"
-                    row += [info, mturkid, verified]
+                        treatment = "NONE"
+                    row += [info, mturkid, verified, treatment]
 
 
 
