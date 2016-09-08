@@ -63,5 +63,5 @@ class EventLogAdmin(admin.ModelAdmin):
 
 @admin.register(TreatmentCell)
 class TreatmentCellAdmin(admin.ModelAdmin):
-    list_display = ('treatment', 'batch', 'blur', 'finished')
+    list_display = ('treatment', 'batch', 'finished')
 

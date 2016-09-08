@@ -47,9 +47,9 @@ class Mturker(models.Model):
     treatmentcell = models.ForeignKey('TreatmentCell', null=True)
     instructionsCount = models.IntegerField(default=0)
 
-    upfront_payment = models.CharField(max_length=128)
+    upfront_payment = models.CharField(max_length=128, default=0)
     upfront_payment_bool = models.BooleanField(default=0)
-    end_payment = models.CharField(max_length=128)
+    end_payment = models.CharField(max_length=128, default=0)
     end_payment_bool = models.BooleanField(default=0)
 
     imageRound = models.IntegerField(default=0)
@@ -125,11 +125,12 @@ class Mturker(models.Model):
         return sum([x.value for x in worktimers])
 
 class Image(models.Model):
-    filename = models.CharField('Filename', max_length=512)
-    blur = models.CharField(max_length=256, null=True)
+    filename = models.CharField('Filename', max_length=512, null=True)
+    treatment = models.CharField('Exog or Endog?', max_length=128, null=True)
+    batchNo = models.IntegerField(null=True, blank=True)
 
     def get_url(self):
-        return "http://bfidata.s3-website-us-east-1.amazonaws.com/libraryimages/{}".format(self.filename)
+        return "http://bfidata.s3-website-us-east-1.amazonaws.com/libraryimages/{}.jpg".format(self.filename)
 
     def check_status(self,user):
         rs = user.task_set.filter(task_id=self.id)
@@ -182,14 +183,13 @@ class EventLog(models.Model):
     timestamp = models.DateTimeField(default=get_now)
 
 class TreatmentCell(models.Model):
-    blur = models.CharField(max_length=256)
-    treatment = models.CharField(max_length=256)
+    treatment = models.CharField(max_length=256, null=True)
     finished = models.BooleanField(default=0)
-    batch = models.CharField(max_length=128)
-    upfront = models.IntegerField()
+    batch = models.CharField(max_length=128, null=True)
+    upfront = models.IntegerField(default=0)
     sorting = models.NullBooleanField()
-    wage = models.CharField(max_length=128)
-    wagebill = models.CharField(max_length=128)
+    wage = models.CharField(max_length=128, null=True)
+    wagebill = models.CharField(max_length=128, null=True)
     csr = models.NullBooleanField()
 
     class Meta:
