@@ -107,16 +107,19 @@ def complete(request):
 
 @login_required(login_url='/login/')
 def endog_check(request):
+    context = {}
     if request.method == "POST":
-        keepgoing = int(request.POST['keepgoing'])
+        keepgoing = int(request.POST['accepted'])
         if keepgoing == 1:
-            roundNo = request.user.mturker.roundNo + 1
-            request.user.mturker.roundNo = roundNo
+            roundNo = request.user.mturker.imageRound + 1
+            request.user.mturker.imageRound = roundNo
             request.user.mturker.save()
         if keepgoing == 0:
-            request.user.finished = 1
-            request.user.save()
-    return redirect('data:task_entry')
+            request.user.mturker.finished = 1
+            request.user.mturker.save()
+        return redirect('data:task_entry')
+    return render(request, 'data/check.html', context)
+
 
 
 def my_login(request, *args, **kwargs):
@@ -166,7 +169,10 @@ def instructions_counter(request):
 
 def unauthorized(request, message=None):
     context = { 'message': message }
-    return render(request, 'data/unauthorized.html', context)
+    if request.user.mturker.verified == 1 and request.user.mturker.accepted != 0:
+        return redirect('data:info')
+    else:
+        return render(request, 'data/unauthorized.html', context)
 
 def keygen(request):
     created = False

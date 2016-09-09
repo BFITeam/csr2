@@ -64,7 +64,7 @@ class Mturker(models.Model):
             self.upfront_payment_bool = 1
         else:
             upfront = float(tc.upfront)/100 * int(tc.wage)
-        if tc.treatment == "endog" and self.finsihed == 1:
+        if tc.treatment == "endog" and self.finished == 1:
             final_payment = (100 - float(tc.upfront))/100 * int(tc.wage)
             final_payment = int(len(self.task_set.filter(finished=1)))/Constants.batchLength * final_payment
             self.end_payment = final_payment
