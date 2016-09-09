@@ -48,17 +48,17 @@ class Mturker(models.Model):
     instructionsCount = models.IntegerField(default=0)
 
     upfront_payment = models.CharField(max_length=128, default=0)
-    upfront_payment_bool = models.BooleanField(default=0)
+    upfront_payment_bool = models.BooleanField(default=False)
     end_payment = models.CharField(max_length=128, default=0)
-    end_payment_bool = models.BooleanField(default=0)
+    end_payment_bool = models.BooleanField(default=False)
 
     batchOrder = models.CharField(max_length=64, null=True)
     imageRound = models.IntegerField(default=0)
 
-    finished = models.BooleanField(default=0)
+    finished = models.BooleanField(default=False)
 
     def get_payment_values(self):
-        tc = self.treatementcell
+        tc = self.treatmentcell
         if tc.upfront == 0:
             upfront = 0
             self.upfront_payment_bool = 1
@@ -92,18 +92,40 @@ class Mturker(models.Model):
         self.save()
 
     def check_finished(self):
-        if self.treatment.imageLimit == "exog":
-            if len(self.user.task_set.filter(status=1)) == len(Image.objects.filter(treatment=self.treatmentcell.treatment).filter(batchNo=self.batchNo)):
+        try:
+            if len(self.user.task_set.filter(status=1)) == len(Image.objects.filter(treatment=self.treatmentcell.imageLimit)) or self.finished == True:
+                self.finished = True
+                self.save()
+                return True
+            else:
+                return False
+        except AttributeError:
+            return False
+
+    def get_batchNo(self):
+        tasks = self.user.task_set.filter(status=1)
+        if self.treatmentcell.imageLimit == "exog":
+            batchNo = 0
+        else:
+            batchNo = int(self.batchOrder[self.imageRound])
+        return batchNo
+
+    def check_for_pause(self):
+        if self.treatmentcell == "endog":
+            images = Images.objects.filter(treatment="endog")
+            tasks = self.user.task_set.filter(status=1)
+            if len(tasks) > 0 and len(tasks) % len(images) == 0:
                 return True
             else:
                 return False
         else:
-            return self.finished
+            return False
 
     def get_task(self):
         current = False
-        images = Image.objects.filter(blur=self.blur).order_by('?')
+        batchNo = self.get_batchNo()
         tasks = self.user.task_set.all()
+        images = Image.objects.filter(treatment=self.treatmentcell.imageLimit).filter(batchNo=batchNo).order_by('?')
         unfinished = tasks.filter(status=0)
         finished = tasks.filter(status=1)
         remaining = len(images)-len(finished)
@@ -196,7 +218,7 @@ class EventLog(models.Model):
 class TreatmentCell(models.Model):
     treatment = models.CharField(max_length=256, null=True)
     imageLimit = models.CharField(max_length=256, null=True)
-    finished = models.BooleanField(default=0)
+    finished = models.BooleanField(default=False)
     batch = models.CharField(max_length=128)
     upfront = models.IntegerField(default=0)
     sorting = models.NullBooleanField()

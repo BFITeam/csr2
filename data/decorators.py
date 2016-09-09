@@ -1,7 +1,9 @@
 from .models import Image, Task, WorkTimer, EventLog
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 import datetime
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 def check_for_spam(user_id, seconds):
     try:
@@ -17,7 +19,7 @@ def check_for_spam(user_id, seconds):
 def check_verified(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         if not request.user.mturker.verified:
-            return render(request, 'data/unauthorized.html', {'message': "This access key has not yet been verified"})
+            return redirect('data:unauthorized', message=1)
         else:
             return view_func(request, *args, **kwargs)
     return _wrapped_view_func

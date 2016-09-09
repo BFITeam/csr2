@@ -111,7 +111,7 @@ DATABASES['local'] = {
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 #ALLOW ALL HOSTS
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
 
 
 # Static files (CSS, JavaScript, Images)

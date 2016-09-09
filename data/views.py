@@ -28,7 +28,7 @@ def index(request):
 @check_verified
 def info(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
-    mturker.get_payments_values()
+    mturker.get_payment_values()
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
     if mturker.accepted == 1:
         if mturker.upfront_payment_bool == 0:
@@ -69,7 +69,10 @@ def begin(request):
 def task_entry(request):
     task, entry, completed = request.user.mturker.get_task()
     if not task:
-        return redirect('data:complete')
+        if request.user.mturker.check_finished():
+            return redirect('data:complete')
+        else:
+            return redirect('data:endog_check')
     TaskForm = modelform_factory(Task, fields=[entry])
     taskform = TaskForm(instance=task)
     if request.method == "POST":
@@ -101,6 +104,20 @@ def task_entry(request):
 @login_required(login_url='/login/')
 def complete(request):
     return render(request, 'data/complete.html')
+
+@login_required(login_url='/login/')
+def endog_check(request):
+    if request.method == "POST":
+        keepgoing = int(request.POST['keepgoing'])
+        if keepgoing == 1:
+            roundNo = request.user.mturker.roundNo + 1
+            request.user.mturker.roundNo = roundNo
+            request.user.mturker.save()
+        if keepgoing == 0:
+            request.user.finished = 1
+            request.user.save()
+    return redirect('data:task_entry')
+
 
 def my_login(request, *args, **kwargs):
     kwargs = {'template_name': "login.html",}
@@ -147,8 +164,9 @@ def instructions_counter(request):
     response = HttpResponse()
     return response
 
-def unauthorized(request):
-    return render(request, 'data/unauthorized.html')
+def unauthorized(request, message=None):
+    context = { 'message': message }
+    return render(request, 'data/unauthorized.html', context)
 
 def keygen(request):
     created = False
