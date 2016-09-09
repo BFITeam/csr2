@@ -5,8 +5,8 @@ import uuid
 import random
 
 class Constants:
+    endogBatchLNumber = 10
     number_of_subjects = 60
-    batchLength = 5
     charity = "UNICEF"
     charity_url = "https://www.unicefusa.org/"
     treatments = {
@@ -52,6 +52,7 @@ class Mturker(models.Model):
     end_payment = models.CharField(max_length=128, default=0)
     end_payment_bool = models.BooleanField(default=0)
 
+    batchOrder = models.CharField(max_length=64, null=True)
     imageRound = models.IntegerField(default=0)
 
     finished = models.BooleanField(default=0)
@@ -73,6 +74,13 @@ class Mturker(models.Model):
     def assign_treatmentcell(self, tcId, mturkid):
         if not self.treatmentcell:
             tc = TreatmentCell.objects.get(id=tcId)
+            if tc.imageLimit == "endog":
+                string = ''
+                for x in range(Constants.endogBatchNumber):
+                    string += str(x)
+            else:
+                string = '0'
+            self.batchOrder = string
             self.treatmentcell_id = tcId
             self.verified = 1
             self.mturkid = mturkid
@@ -84,10 +92,13 @@ class Mturker(models.Model):
         self.save()
 
     def check_finished(self):
-        if len(self.user.task_set.filter(status=1)) == batchLength:
-            return True
+        if self.treatment.imageLimit == "exog":
+            if len(self.user.task_set.filter(status=1)) == len(Image.objects.filter(treatment=self.treatmentcell.treatment).filter(batchNo=self.batchNo)):
+                return True
+            else:
+                return False
         else:
-            return False
+            return self.finished
 
     def get_task(self):
         current = False
@@ -184,8 +195,9 @@ class EventLog(models.Model):
 
 class TreatmentCell(models.Model):
     treatment = models.CharField(max_length=256, null=True)
+    imageLimit = models.CharField(max_length=256, null=True)
     finished = models.BooleanField(default=0)
-    batch = models.CharField(max_length=128, null=True)
+    batch = models.CharField(max_length=128)
     upfront = models.IntegerField(default=0)
     sorting = models.NullBooleanField()
     wage = models.CharField(max_length=128, null=True)
