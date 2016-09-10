@@ -5,7 +5,7 @@ import uuid
 import random
 
 class Constants:
-    endogBatchLNumber = 10
+    endogBatchNumber = 10
     number_of_subjects = 60
     charity = "UNICEF"
     charity_url = "https://www.unicefusa.org/"
@@ -66,10 +66,14 @@ class Mturker(models.Model):
             upfront = float(tc.upfront)/100 * int(tc.wage)
         if tc.treatment == "endog" and self.finished == 1:
             final_payment = (100 - float(tc.upfront))/100 * int(tc.wage)
-            final_payment = int(len(self.task_set.filter(finished=1)))/Constants.batchLength * final_payment
+            final_payment = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchNumber * final_payment
             self.end_payment = final_payment
         self.upfront_payment = upfront
         self.save()
+
+    def get_number_of_images(self):
+        images = Image.objects.filter(treatment=self.mturker.treatmentcell.imageLimit).filter(batchNo=0)
+        return len(images)
 
     def assign_treatmentcell(self, tcId, mturkid):
         if not self.treatmentcell:
