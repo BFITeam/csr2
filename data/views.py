@@ -63,6 +63,8 @@ def info(request):
 def begin(request):
     context = {
         'Constants': Constants,
+        'mturker': request.user.mturker,
+        'treatment': request.user.mturker.treatmentcell,
         }
     return render(request, 'data/main.html', context)
 

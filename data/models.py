@@ -67,8 +67,8 @@ class Mturker(models.Model):
         if tc.treatment == "endog" and self.finished == 1:
             final_payment = (100 - float(tc.upfront))/100 * int(tc.wage)
             final_payment = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchNumber * final_payment
-            self.end_payment = final_payment
-        self.upfront_payment = upfront
+            self.end_payment = "%.2f" % final_payment
+        self.upfront_payment = "%.2f" % upfront
         self.save()
 
     def get_number_of_images(self):
@@ -229,6 +229,9 @@ class TreatmentCell(models.Model):
     wage = models.CharField(max_length=128, null=True)
     wagebill = models.CharField(max_length=128, null=True)
     csr = models.NullBooleanField()
+
+    def get_remaining(self):
+        return 100 - self.upfront
 
     class Meta:
         ordering = ['id']
