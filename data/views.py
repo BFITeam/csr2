@@ -34,7 +34,7 @@ def info(request):
         if mturker.upfront_payment_bool == 0:
             print "Sending upfront bonus"
             #Pay them using boto and update upfront_payment_bool
-            price = Price(amount=float(request.user.mturker.upfront_payment, currency_code="USD"))
+            price = Price(amount=float(request.user.mturker.upfront_payment), currency_code="USD")
             mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price)
             mturker.upfront_payment_bool = 1
             mturker.save()
