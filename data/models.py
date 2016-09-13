@@ -77,7 +77,7 @@ class Mturker(models.Model):
         images = Image.objects.filter(treatment=self.mturker.treatmentcell.imageLimit).filter(batchNo=0)
         return len(images)
 
-    def assign_treatmentcell(self, tcId, mturkid):
+    def assign_treatmentcell(self, tcId, mturkid, assignmentId):
         if not self.treatmentcell:
             tc = TreatmentCell.objects.get(id=tcId)
             if tc.imageLimit == "endog":

@@ -35,7 +35,8 @@ def info(request):
             print "Sending upfront bonus"
             #Pay them using boto and update upfront_payment_bool
             price = Price(amount=float(request.user.mturker.upfront_payment), currency_code="USD")
-            mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price)
+            requester_message = "Here is {}% of your total bonus.".format(mturker.treatmentcell.upfront)
+            mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
             mturker.upfront_payment_bool = 1
             mturker.save()
         return HttpResponseRedirect(reverse('data:begin'))
