@@ -31,14 +31,6 @@ def info(request):
     mturker.get_payment_values()
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
     if mturker.accepted == 1:
-        if mturker.upfront_payment_bool == 0:
-            print "Sending upfront bonus"
-            #Pay them using boto and update upfront_payment_bool
-            price = Price(amount=float(request.user.mturker.upfront_payment), currency_code="USD")
-            requester_message = "Here is {}% of your total bonus.".format(mturker.treatmentcell.upfront)
-            mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
-            mturker.upfront_payment_bool = 1
-            mturker.save()
         return HttpResponseRedirect(reverse('data:begin'))
     elif request.user.mturker.accepted == 0:
         return redirect('data:unauthorized')
@@ -62,6 +54,15 @@ def info(request):
 @login_required(login_url='/login/')
 @check_verified
 def begin(request):
+    mturker = request.user.mturker
+    if mturker.upfront_payment_bool == 0:
+        print "sending upfront bonus"
+        #pay them using boto and update upfront_payment_bool
+        price = Price(amount=float(request.user.mturker.upfront_payment), currency_code="USD")
+        requester_message = "here is {}% of your total bonus.".format(mturker.treatmentcell.upfront)
+        mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
+        mturker.upfront_payment_bool = 1
+        mturker.save()
     context = {
         'Constants': Constants,
         'mturker': request.user.mturker,
@@ -108,11 +109,36 @@ def task_entry(request):
 
 @login_required(login_url='/login/')
 def complete(request):
+    mturker = request.user.mturker
+    tc = request.user.mturker.treatmentcell
+    if tc.treatment == "endog":
+        mturker.end_payment_bool = True
+        if mturker.check_for_endog_payments() == True:
+            price = Price(float(tc.wage), currency_code="USD")
+            requester_message = "Here is your bonus of ${} for finishing a batch of images".format(tc.wage)
+            mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
+    elif tc.treatment == "baseline":
+        requester_message = "Here is your bonus payment for finishing the transcription task.".format(tc.wage)
+        price = Price(float(mturker.end_payment), currency_code="USD")
+        if mturker.end_payment_bool == False:
+            mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
+            mturker.end_payment_bool = True
+    elif "upfront" in tc.treatment:
+        requester_message = "Here is the remaining {}% of your total bonus for finishing the images".format(100-tc.upfront)
+        price = Price(float(mturker.end_payment), currency_code="USD")
+        if mturker.end_payment_bool == False:
+            mturk.grant_bonus(mturk.mturkid, mturker.assignmentId, price, requester_message)
+            mturker.end_payment_bool = True
+    mturker.save()
     return render(request, 'data/complete.html')
 
 @login_required(login_url='/login/')
 def endog_check(request):
     context = {}
+    if self.request.user.mturk.check_for_endog_payments() == True:
+        price = Price(float(request.user.mturker.treatmentcell.wage), currency_code="USD")
+        requester_message = "Here is a bonus of ${} for finishing a batch of images".format(request.user.mturker.treatmentcell.wage)
+        mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
     if request.method == "POST":
         keepgoing = int(request.POST['accepted'])
         if keepgoing == 1:

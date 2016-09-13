@@ -59,19 +59,29 @@ class Mturker(models.Model):
 
     def get_payment_values(self):
         tc = self.treatmentcell
-        if tc.upfront == 0:
-            upfront = 0
-            self.upfront_payment_bool = 1
-            self.end_payment = tc.wage
+        if tc.treatment != "endog":
+            if tc.upfront == 0:
+                upfront = 0
+                self.upfront_payment_bool = 1
+                self.end_payment = tc.wage
+            else:
+                upfront = float(tc.upfront)/100 * float(tc.wage)
+                self.end_payment = "%.2f" % ((100 - float(tc.upfront))/100 * float(tc.wage))
+            self.upfront_payment = "%.2f" % upfront
+            self.save()
+
+    def check_for_endog_payments(self):
+        tc = self.treatmentcell
+        if tc.treatment == "endog":
+            quantityWorked = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchNumber * float(tc.wage)
+            if float(quantityWorked) > float(self.end_payment):
+                self.end_payment = "%.2f" % (float(self.end_payment) + float(tc.wage))
+                self.save()
+                return True
+            else:
+                return False
         else:
-            upfront = float(tc.upfront)/100 * float(tc.wage)
-            self.end_payment = "%.2f" % ((100 - float(tc.upfront))/100 * float(tc.wage))
-        if tc.treatment == "endog" and self.finished == 1:
-            final_payment = (100 - float(tc.upfront))/100 * float(tc.wage)
-            final_payment = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchNumber * final_payment
-            self.end_payment = "%.2f" % final_payment
-        self.upfront_payment = "%.2f" % upfront
-        self.save()
+            return False
 
     def get_number_of_images(self):
         images = Image.objects.filter(treatment=self.mturker.treatmentcell.imageLimit).filter(batchNo=0)
