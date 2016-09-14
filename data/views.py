@@ -127,7 +127,7 @@ def complete(request):
         requester_message = "Here is the remaining {}% of your total bonus for finishing the images".format(100-tc.upfront)
         price = Price(float(mturker.end_payment), currency_code="USD")
         if mturker.end_payment_bool == False:
-            mturk.grant_bonus(mturk.mturkid, mturker.assignmentId, price, requester_message)
+            mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
             mturker.end_payment_bool = True
     mturker.save()
     return render(request, 'data/complete.html')

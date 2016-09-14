@@ -45,10 +45,12 @@ def job():
                 print response
                 mturker, created = Mturker.objects.get_or_create(user_id=user.id)
                 tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
+                #tc = TreatmentCell.objects.filter(batch=_BATCH).filter(treatment="upfront10")[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'], response['assignmentId'])
-                #send message with userid and url.
                 feedback = "You can use this code: {} to login at https://tranquil-meadow-42703.herokuapp.com".format(mturker.user.username)
+                # SEND A MESSAGE To PEOPLE, FEEDBACK DOES NOT DO THIS
                 mturk.approve_assignment(response['assignmentId'], feedback=feedback)
+                print response['assignmentId']
 
     print "MTURK API Runtime: {}".format((time.time() - start))
 
