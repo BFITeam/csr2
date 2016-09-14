@@ -38,7 +38,7 @@
     </form>
     <div class="row">
         <div class="col-md-4 col-xs-offset-5">
-            Progress: {{ progress }} of {% if treatment.treatment == "endog" %}5{% else %}10{% endif %}
+            Progress: {{ progress|add:"1" }} of {% if request.user.mturker.treatment.treatment == "endog" %}5{% else %}10{% endif %}
         </div>
     </div>
 </div>
