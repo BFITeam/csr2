@@ -6,6 +6,7 @@ import random
 
 class Constants:
     endogBatchNumber = 10
+    endogBatchLength = 5
     number_of_subjects = 60
     charity = "UNICEF"
     charity_url = "https://www.unicefusa.org/"
@@ -59,9 +60,6 @@ class Mturker(models.Model):
 
     def get_payment_values(self):
         tc = self.treatmentcell
-        if tc.treatment == "endog":
-            self.upfront_payment_bool = 1
-            self.save()
         if tc.treatment != "endog":
             if tc.upfront == 0:
                 upfront = 0
@@ -76,7 +74,7 @@ class Mturker(models.Model):
     def check_for_endog_payments(self):
         tc = self.treatmentcell
         if tc.treatment == "endog":
-            quantityWorked = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchNumber * float(tc.wage)
+            quantityWorked = int(len(self.user.task_set.filter(status=1)))/Constants.endogBatchLength * float(tc.wage)
             if float(quantityWorked) > float(self.end_payment):
                 self.end_payment = "%.2f" % (float(self.end_payment) + float(tc.wage))
                 self.save()
