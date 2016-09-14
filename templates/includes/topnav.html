@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="pull-left" href="{% url 'data:index' %}"><img height="50" src="\static\logo.png"/></a>
+            <a class="pull-left" href="{% url 'data:index' %}"><img height="50" src="/static/logo.png"></a>
         </div>1
         <div id="navbar" class="collapse navbar-collapse">
             {% if request.user.is_authenticated and request.user.accepted %}
