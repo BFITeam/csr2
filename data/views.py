@@ -11,7 +11,7 @@ from django.db import models
 from django import forms
 from django.conf import settings
 import user_patch
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views, authenticate, login
 from django.contrib.auth.models import User
 import uuid
 from boto.mturk.price import Price
@@ -206,16 +206,15 @@ def unauthorized(request, message=None):
         return render(request, 'data/unauthorized.html', context)
 
 def keygen(request):
+    if request.user.is_authenticated():
+        return redirect("data:index")
     created = False
-    while not created:
+    user = User.objects.create_user(username=str(uuid.uuid1())[:30],password='none')
+    user = authenticate(username=user.username, password="none")
+    login(request, user)
+    context = {
+        'user': user,
+        'keygen': True,
+    }
 
-        user = User(username=str(uuid.uuid1())[:30])
-        user.set_password("none")
-        try:
-            user.save()
-        except IntegrityError:
-            continue
-        else:
-            created = True
-    context = {'user': user}
     return render(request, "data/keygen.html", context)
