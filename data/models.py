@@ -59,6 +59,9 @@ class Mturker(models.Model):
 
     def get_payment_values(self):
         tc = self.treatmentcell
+        if tc.treatment == "endog":
+            self.upfront_payment_bool = 1
+            self.save()
         if tc.treatment != "endog":
             if tc.upfront == 0:
                 upfront = 0
