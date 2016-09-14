@@ -142,6 +142,7 @@ class Mturker(models.Model):
         current = False
         batchNo = self.get_batchNo()
         tasks = self.user.task_set.all()
+        progress = len(tasks.filter(image__batchNo=batchNo))
         images = Image.objects.filter(treatment=self.treatmentcell.imageLimit).filter(batchNo=batchNo).order_by('?')
         unfinished = tasks.filter(status=0)
         finished = tasks.filter(status=1)
@@ -168,7 +169,7 @@ class Mturker(models.Model):
                 self.treatmentcell.save()
             except AttributeError:
                 pass
-        return current, entry, len(tasks)
+        return current, entry, len(tasks), progress
 
     def get_hours(self):
         worktimers = self.user.worktimer_set.all()

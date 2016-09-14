@@ -73,7 +73,7 @@ def begin(request):
 @login_required(login_url='/login/')
 @check_verified
 def task_entry(request):
-    task, entry, completed = request.user.mturker.get_task()
+    task, entry, completed, progress = request.user.mturker.get_task()
     if not task:
         if request.user.mturker.check_finished():
             return redirect('data:complete')
@@ -96,6 +96,7 @@ def task_entry(request):
                 'completed': completed,
                 'taskform': taskform,
                 'task': task,
+                'progress': progress,
                 }
             return redirect('data:task_entry')
         else:
@@ -104,6 +105,7 @@ def task_entry(request):
         'taskform': taskform,
         'task': task,
         'completed': completed,
+        'progress': progress,
     }
     return render(request, 'data/task_entry.html', context)
 
