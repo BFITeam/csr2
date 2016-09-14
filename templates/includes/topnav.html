@@ -1,10 +1,10 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="pull-left" href="{% url 'data:index' %}"><img height="50px" src="\static\logo.png"></a>
-        </div>
+            <a class="pull-left" href="{% url 'data:index' %}"><img height="50" src="\static\logo.png"/></a>
+        </div>1
         <div id="navbar" class="collapse navbar-collapse">
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and request.user.accepted %}
             <ul class="nav navbar-form navbar-right">
                 <li><button class="btn btn-info" type="button" id="modalBtnInfo" data-toggle="modal" data-target="#myModalInfo">Instructions</button></li>
             </ul>
@@ -12,4 +12,4 @@
         </div><!--/ .nav-collapse -->
     </div>
 </nav>
-{% include "data/includes/intromodal.html" %}
+{% include "data/includes/intromodal.html" %}1
