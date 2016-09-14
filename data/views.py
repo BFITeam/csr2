@@ -135,7 +135,7 @@ def complete(request):
 @login_required(login_url='/login/')
 def endog_check(request):
     context = {}
-    if self.request.user.mturk.check_for_endog_payments() == True:
+    if request.user.mturk.check_for_endog_payments() == True:
         price = Price(float(request.user.mturker.treatmentcell.wage), currency_code="USD")
         requester_message = "Here is a bonus of ${} for finishing a batch of images".format(request.user.mturker.treatmentcell.wage)
         mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
