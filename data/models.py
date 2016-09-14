@@ -123,12 +123,15 @@ class Mturker(models.Model):
         tasks = self.user.task_set.filter(status=1)
         if self.treatmentcell.imageLimit == "exog":
             batchNo = 0
+            okay = True
         else:
             try:
                 batchNo = int(self.batchOrder[self.imageRound])
+                okay = True
             except IndexError:
                 batchNo = False
-        return batchNo
+                okay = False
+        return batchNo, okay
 
     def check_for_pause(self):
         if self.treatmentcell == "endog":
@@ -143,8 +146,8 @@ class Mturker(models.Model):
 
     def get_task(self):
         current = False
-        batchNo = self.get_batchNo()
-        if not batchNo:
+        batchNo, okay = self.get_batchNo()
+        if not okay:
             return False, False, False, False
         tasks = self.user.task_set.all()
         progress = len(tasks.filter(image__batchNo=batchNo))
