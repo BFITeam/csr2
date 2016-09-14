@@ -78,6 +78,7 @@ def task_entry(request):
         if request.user.mturker.check_finished():
             return redirect('data:complete')
         else:
+            okay = False
             return redirect('data:endog_check')
     TaskForm = modelform_factory(Task, fields=[entry])
     taskform = TaskForm(instance=task)
@@ -144,7 +145,7 @@ def endog_check(request):
     if request.method == "POST":
         keepgoing = int(request.POST['accepted'])
         if keepgoing == 1:
-            roundNo = request.user.mturker.imageRound + 1
+            roundNo = int(len(request.user.task_set.filter(status=1)))/Constants.batchLength
             request.user.mturker.imageRound = roundNo
             request.user.mturker.save()
         if keepgoing == 0:
