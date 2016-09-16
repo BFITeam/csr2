@@ -16,8 +16,10 @@
         {% else %}
             {% if treatment.upfront != 0 %}
                 We just made an upfront payment of ${{ mturker.upfront_payment }} as a bonus on your Amazon Payment account.
+                You will recieve the remaining bonus upon finishing the task.
+            {% else %}
+                You will recieve your bonus upon finishing the task.
             {% endif %}
-            You will recieve you bonus upon finishing the task.
         {% endif %}
             </p>
 

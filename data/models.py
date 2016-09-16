@@ -115,6 +115,7 @@ class Mturker(models.Model):
         try:
             if len(self.user.task_set.filter(status=1)) == len(Image.objects.filter(treatment=self.treatmentcell.imageLimit)) or self.finished == True:
                 self.finished = True
+                self.treatmentcell.finished = True
                 self.save()
                 return True
             else:
@@ -174,12 +175,6 @@ class Mturker(models.Model):
             entry = False
         else:
             entry = "text" if current.readable else "readable"
-        if current == False:
-            try:
-                self.treatmentcell.finished = 1
-                self.treatmentcell.save()
-            except AttributeError:
-                pass
         return current, entry, len(tasks), progress
 
     def get_hours(self):
