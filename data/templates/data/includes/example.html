@@ -1,0 +1,44 @@
+
+
+
+<button hidden type="button" id="modalBtnExample" data-toggle="modal" data-target="#exampleModal">
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">EXAMPLE</h4>
+      </div>
+      <div class="modal-body">
+          <div class="col-xs-12">
+              <img class="img-responsive" src="/static/example.png">
+          </div>
+          <div class="row">
+              <div class="col-xs-12">
+                  <h4>Correct</h4>
+                  <p>Er war, was er war. Was aus ihm werden soll, Das liegt an uns. Wie wir, erinnernd seinen Tod, Zu leben uns entschliessen, Entscheidet ueber seinen Sinn.</p>
+              </div>
+              <div class="col-xs-12">
+                  <h4>Incorrect</h4>
+                  <p>Er war, was er war.<br>
+                     Was aus ihm werden soll,<br>
+                     Das liegt an uns.</p>
+                  <p></p>
+                  <p>Wie wir, erinnernd seinen Tod,<br>
+                     Zu leben uns entschliessen,<br>
+                     Entscheidet ueber seinen Sinn.</p>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var exampleModalBtn = document.getElementById('modalBtnExample')
+</script>

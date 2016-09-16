@@ -12,7 +12,7 @@
         <div class="col-sm-8 col-sm-pull-4">
             <p>Thank you for helping us with this transcription task.
         {% if treatment.imageLimit == "endog" %}
-            Thank you for helping us with this transcription task. You may work on as many batches of 5 images as you want and will receive your bonus of ${{ treatment.wage }} per batch on your Amazon Payment account, upon finishing each batch.
+            You may work on as many batches of 5 images as you want and will receive your bonus of ${{ treatment.wage }} per batch on your Amazon Payment account, upon finishing each batch.
         {% else %}
             {% if treatment.upfront != 0 %}
                 We just made an upfront payment of ${{ mturker.upfront_payment }} as a bonus on your Amazon Payment account.
@@ -22,6 +22,7 @@
             </p>
 
             {% include "data/includes/instructions.html" %}
+            {% include 'data/includes/example.html' %}
             <hr>
             <p>We need this work to be completed quickly.
             {% if treatment.imageLimit == "endog" %}
@@ -30,7 +31,7 @@
                 {% if treatment.upfront != 0 %}
                     Please complete the task in the next XXX hours in order to receive the remaining {{ treatment.get_remaining }}% of your payment.
                 {% else %}
-                    Please complete the task in the next XXX hours in order to revieve your payment.
+                    Please complete the task in the next XXX hours in order to receive your payment.
                 {% endif %}
             {% endif %}
             </p>

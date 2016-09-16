@@ -2,11 +2,11 @@
     <div class="col-xs-12">
         <h3>Instructions:</h3>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-sm-12 col-lg-8">
         <ol>
             <li>You will be shown {% if treatment.imageLimit == "endog" %}5{% else %}10{% endif %} images similar to the one seen on this page.</li>
             <li>For each image, you will first need to determine whether it is readable or not.</li>
-            <li>If the image is readable, you will need to transcribe the text.</li>
+            <li>If you report the image as readable, you will need to transcribe the text.</li>
             <li>Use the following rules for non-standard characters:</li>
             <ul>
                 <li>Transcribe &auml; as ae, &Auml; as Ae</li>
@@ -16,29 +16,13 @@
             </ul>
             <li>Use a single "-" for both hyphens and dashes.</li>
             <li>Do NOT transcribe page numbers.</li>
-            <li>Do NOT preserve the stanzas as you transcribe.</li>
-            <li>Example
-                    <div class="col-xs-12">
-                        <img class="img-responsive" src="\static\example.jpg">
-                    </div>
-                    <div class="col-xs-12">
-                        <h4>Correct</h4>
-                        <p>Er war, was er war. Was aus ihm werden soll, Das liegt an uns. Wie wir, erinnernd seinen Tod, Zu leben uns entschliessen, Entscheidet ueber seinen Sinn.</p>
-                    </div>
-                    <div class="col-xs-12">
-                        <h4>Incorrect</h4>
-                        <p>Er war, was er war.<br>
-                           Was aus ihm werden soll,<br>
-                           Das liegt an uns.</p>
-                        <p></p>
-                        <p>Wie wir, erinnernd seinen Tod,<br>
-                           Zu leben uns entschliessen,<br>
-                           Entscheidet ueber seinen Sinn.</p>
-                    </div>
-            </li>
+            <li>Do NOT preserve the stanzas as you transcribe. <a href="#" type="button" id="modalBtnExample" data-toggle="modal" data-target="#exampleModal">Click to see an example</a></li>
             <li>If you cannot read some characters, replace them with an underscore _.</li>
             <li>Press ‘submit’ after you finished transcribing.</li>
         </ol>
         <p>You will be able to review these instructions at any time.</p>
     </div>
+    <div class="col-xs-12 col-sm-12 col-lg-4">
+      <img class="img-responsive" src="/static/example.png">
+  </div>
 </div>

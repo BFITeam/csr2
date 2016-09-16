@@ -4,7 +4,7 @@
             <a class="pull-left" href="{% url 'data:index' %}"><img height="50" src="/static/logo.png"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            {% if request.user.is_authenticated and request.user.accepted %}
+            {% if request.user.is_authenticated and request.user.mturker.accepted %}
             <ul class="nav navbar-form navbar-right">
                 <li><button class="btn btn-info" type="button" id="modalBtnInfo" data-toggle="modal" data-target="#myModalInfo">Instructions</button></li>
             </ul>
