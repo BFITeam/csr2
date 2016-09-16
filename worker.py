@@ -39,13 +39,14 @@ def job():
             response['verified'] = 0
         else:
             exists = Mturker.objects.filter(mturkid=response['workerId'])
-            if len(exists) > 0:
+            #if len(exists) > 0:
+            if len(exists) < 0:
                 continue
             else:
                 print response
                 mturker, created = Mturker.objects.get_or_create(user_id=user.id)
-                #tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
-                tc = TreatmentCell.objects.filter(batch=_BATCH).filter(treatment="upfront50")[0]
+                tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
+                #tc = TreatmentCell.objects.filter(batch=_BATCH).filter(treatment="upfront50")[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'], response['assignmentId'])
                 feedback = "You can use this code: {} to login at https://tranquil-meadow-42703.herokuapp.com".format(mturker.user.username)
                 mturk.notify_workers([response['workerId']], "Assess Code Verified", feedback)
