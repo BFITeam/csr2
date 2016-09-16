@@ -39,8 +39,7 @@ def job():
             response['verified'] = 0
         else:
             exists = Mturker.objects.filter(mturkid=response['workerId'])
-            #if len(exists) > 0:
-            if len(exists) < 0:
+            if len(exists) > 0:
                 continue
             else:
                 print response
