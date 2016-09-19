@@ -38,7 +38,7 @@
     </form>
     <div class="row">
         <div class="col-md-4 col-xs-offset-5">
-            Progress: {{ progress|add:"1" }} of {% if request.user.mturker.treatmentcell.treatment == "endog" %}5{% else %}10{% endif %}<br>
+            Progress: {{ progress }} of {% if request.user.mturker.treatmentcell.treatment == "endog" %}5{% else %}10{% endif %}<br>
             {% if request.user.mturker.treatmentcell.treatment == "endog" %}Batch-{{ request.user.mturker.get_batchNo.0|add:"1" }}{% endif %}
         </div>
     </div>

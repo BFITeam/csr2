@@ -154,7 +154,6 @@ class Mturker(models.Model):
         if not okay:
             return False, False, False, False
         tasks = self.user.task_set.all()
-        progress = len(tasks.filter(image__batchNo=batchNo))
         images = Image.objects.filter(treatment=self.treatmentcell.imageLimit).filter(batchNo=batchNo).order_by('?')
         unfinished = tasks.filter(status=0)
         finished = tasks.filter(status=1)
@@ -175,7 +174,9 @@ class Mturker(models.Model):
             entry = False
         else:
             entry = "text" if current.readable else "readable"
+        progress = len(tasks.filter(image__batchNo=batchNo))
         return current, entry, len(tasks), progress
+
 
     def get_hours(self):
         worktimers = self.user.worktimer_set.all()

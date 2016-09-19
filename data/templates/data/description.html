@@ -19,12 +19,12 @@
     {% endif %}
         <div {% if request.user.mturker.sorting %}class="col-sm-8 col-md-8"{% else %}class="col-sm-8 col-md-8 col-sm-pull-4"{% endif %}>
             <p>Your response to our Mturk HIT was just auto-approved and your $0.10 reward was paid on your Amazon Payment account. Please read the following information about the task and decide if you are willing to work for us for a few minutes and earn {% if treatment.imageLimit == "exog" %}{{ mturker.treatment.wage }} {% endif %}extra bonus!</p>
-            <p>This HIT requires you to transcribe short texts which have been scanned from German documents.</p>
+            <p>This HIT requires you to transcribe {% if treatment.imageLimit == "endog" %}batches of {% endif %}  short texts which have been scanned from German documents.</p>
             <ul>
-               {% if treatment.imageLimit == "exog" %}
-                <li>You will receive a total of <u><b>${{ treatment.wage }} bonus</b> for working on <b>10 images</b></u> (similar to the one you see to the right), which will be paid as bonus on your Amazon Payment account.</li>
-                {% else %}
-                <li>Each batch includes 5 images (similar to the one you see to the right) and you will receive ${{ treatment.wage }} bonus for each batch that you work on.</li>
+            {% if treatment.imageLimit == "exog" %}
+                <li>You will receive a total of <u><b>${{ treatment.wage }} bonus</b> for working on <b>10 images</b></u> (similar to the one you see to the right), which will be paid as a bonus on your Amazon Payment account.</li>
+            {% else %}
+                <li>Each batch includes 5 images (similar to the one you see to the right) and you will receive ${{ treatment.wage }} bonus for each batch that you work on, which will be paid as a bonus on your Amazon Payment account.</li>
                 <li>You may work on as many batches as you choose and earn extra bonus.</li>
                 {% endif %}
                 <li>The task is <u>short</u> and will not take more than a few minutes per batch.</li>
@@ -39,7 +39,7 @@
         </div>
         <div class="col-sm-10 col-md-10">
             <div class="col-xs-12 col-md-4">
-                <img class="img-responsive" src="\static\example.jpg">
+                <img class="img-responsive" src="\static\example.png">
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
             <h3></h3>
             <p>You now have the option to choose if you want to only earn your $0.10 reward for accepting the HIT and exit; or you would like to transcribe images for us and earn an extra {% if treament.imageLimit == "exog" %}{{ treatment.wage }}{% endif %} bonus.</p>
             {% if treatment.imageLimit == "endog" %}
-            <p>NOTE: <u>Your ${{ treatment.wage }} bonus per batch will be paid within a few minutes after you complete each batch. The bonus will be paid per batch and NOT per image!</u></p>
+            <p>NOTE: <u>Your ${{ treatment.wage }} bonus per batch will be paid on your account within a few minutes after you complete each batch. The bonus will be paid per batch and NOT per image!</u></p>
             {% else %}
             <p>NOTE: <u>{% if treatment.upfront != 0 %} {{ treatment.upfront }}% (${{ mturker.upfront_payment }}) of the total bonus will be paid to you immediately after choosing the option to work on all 10 images and the remaining {{ treatment.get_remaining }}% (${{ mturker.end_payment }}) will be paid within a few minutes after you complete the task.{% else %}A bonus of ${{ mturker.end_payment }} with be paid within a few minutes after you complete all 10 images.{% endif %}</u></p>
             {% endif %}

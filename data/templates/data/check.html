@@ -11,7 +11,7 @@
         {% include "data/includes/info.html" %}
         <div class="col-sm-8 col-sm-pull-4">
             <p>Thank you for helping us with this transcription task.</p>
-            <p>You have completed the requisite number of images.  Would you like to continue on another set of images?</p>
+            <p>You have completed the requisite number of images for this batch and we just paid you a bonus of ${{ treatment.wage }} on your Amazon account.  Would you like to continue on another set of images?</p>
         </div>
         <div class="col-sm-4 col-md-4 col-sm-pull-4">
             <form action="/check/" method="post">
@@ -26,9 +26,15 @@
                 <input type="hidden" id="id_accepted" name="accepted" value="1">
                 <input type="submit" class="btn btn-defualt" value="I want to work on another 5 images" />
             </form>
+        <br>
         </div>
 
     {% include "includes/hometimer.html" %}
     </div><!-- /.row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <p>Bonus earned so far: ${{ request.user.mturker.end_payment }}</p>
+        </div>
+    </div>
 </div> <!-- /.container -->
 {% endblock %}
