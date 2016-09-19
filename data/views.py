@@ -211,7 +211,17 @@ def keygen(request):
     if request.user.is_authenticated():
         return redirect("data:index")
     created = False
-    user = User.objects.create_user(username=str(uuid.uuid1())[:30],password='none')
+    while not created:
+        user = User(username=str(uuid.uuid1())[:30])
+        user.set_password("none")
+        try:
+            user.save()
+        except IntegrityError:
+            continue
+        else:
+            created = True
+
+    #user = User.objects.create_user(username=str(uuid.uuid1())[:30],password='none')
     user = authenticate(username=user.username, password="none")
     login(request, user)
     context = {

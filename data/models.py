@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
 import random
+import datetime
 
 class Constants:
     endogBatchNumber = 10
@@ -33,6 +34,8 @@ class Constants:
             },
     }
 
+    accessLength = datetime.timedelta(hours=2)
+
 def get_now():
     return timezone.now()
 # Create your models here.
@@ -57,6 +60,10 @@ class Mturker(models.Model):
     imageRound = models.IntegerField(default=0)
 
     finished = models.BooleanField(default=False)
+
+    def check_access(self):
+        if Constants.accessLength > timezone.now() - self.user.date_joined:
+            pass
 
     def get_payment_values(self):
         tc = self.treatmentcell

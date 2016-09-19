@@ -39,6 +39,7 @@
 
     {% if form.errors %}
         <div class="alert alert-danger" roll="alert">
+            {% if request.user.is_active == False %}Time is up{% endif %}
             Key not recognized.
         </div>
     {% endif %}
