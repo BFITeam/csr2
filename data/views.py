@@ -202,7 +202,7 @@ def instructions_counter(request):
 
 def unauthorized(request, message=None):
     context = { 'message': message }
-    if request.user.mturker.verified == 1 and request.user.mturker.accepted != 0:
+    if request.user.mturker.verified == 1 and request.user.mturker.accepted != 0 and request.user.mturker.check_access():
         return redirect('data:info')
     else:
         return render(request, 'data/unauthorized.html', context)

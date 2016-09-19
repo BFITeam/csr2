@@ -20,6 +20,8 @@ def check_verified(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
         if not request.user.mturker.verified:
             return redirect('data:unauthorized', message=1)
+        elif not request.user.mturker.check_access():
+            return redirect('data:unauthorized', message=2)
         else:
             return view_func(request, *args, **kwargs)
     return _wrapped_view_func

@@ -62,8 +62,7 @@ class Mturker(models.Model):
     finished = models.BooleanField(default=False)
 
     def check_access(self):
-        if Constants.accessLength > timezone.now() - self.user.date_joined:
-            pass
+        return Constants.accessLength > timezone.now() - self.user.date_joined
 
     def get_payment_values(self):
         tc = self.treatmentcell
