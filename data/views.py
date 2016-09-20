@@ -21,7 +21,6 @@ from worker import mturk
 @login_required(login_url="/login/")
 def index(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
-    mturker.get_payment_values()
     return HttpResponseRedirect(reverse('data:info'))
 
 @login_required(login_url="/login/")
@@ -45,7 +44,7 @@ def info(request):
     context = {
         'Constants': Constants,
         'mturkerform': mturkerform,
-        'mturker': request.user.mturker,
+        'mturker': mturker,
         'treatment': request.user.mturker.treatmentcell,
     }
     return render(request, 'data/description.html', context)
