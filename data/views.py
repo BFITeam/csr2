@@ -21,7 +21,7 @@ from worker import mturk
 @login_required(login_url="/login/")
 def index(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
-
+    mturker.get_payment_values()
     return HttpResponseRedirect(reverse('data:info'))
 
 @login_required(login_url="/login/")
