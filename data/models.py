@@ -33,8 +33,10 @@ class Constants:
             'wagebill': '1.20',
             },
     }
-
-    accessLength = datetime.timedelta(hours=2)
+    timeLimit = {
+        'exog': [2, 2],
+        'endog': [5, 2],
+    }
 
 def get_now():
     return timezone.now()
@@ -61,8 +63,21 @@ class Mturker(models.Model):
 
     finished = models.BooleanField(default=False)
 
+
+    def get_time_limit(self):
+        timeLimit = Constants.timeLimit[self.treatmentcell.imageLimit]
+        td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
+        rt = td - (timezone.now() - self.user.date_joined)
+        m,s = divmod(rt.seconds, 60)
+        h,m = divmod(m, 60)
+        return "%d:%02d" % (h,m)
+
+
     def check_access(self):
-        return Constants.accessLength > timezone.now() - self.user.date_joined
+        timeLimit = Constants.timeLimit[self.treatmentcell.imageLimit]
+
+        td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
+        return td > timezone.now() - self.user.date_joined
 
     def get_payment_values(self):
         tc = self.treatmentcell
