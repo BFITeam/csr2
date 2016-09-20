@@ -26,15 +26,15 @@
             {% else %}
                 <li>Each batch includes 5 images (similar to the one you see to the right) and you will receive ${{ treatment.wage }} bonus for each batch that you work on, which will be paid as a bonus on your Amazon Payment account.</li>
                 <li>You may work on as many batches as you choose and earn extra bonus.</li>
-                {% endif %}
+            {% endif %}
                 <li>The task is <u>short</u> and will not take more than a few minutes per batch.</li>
-                {% if treatment.imageLimit == "endog" %}
+            {% if treatment.imageLimit == "endog" %}
                 <li>Your bonus for each batch will be paid to you as soon as you submit the batch.</li>
-                {% else %}
+            {% else %}
                 <li>If you chose to work on 10 images,  {% if treatment.upfront != 0 %}we will immediately pay {{ treatment.upfront }}% of the total bonus to you on your Amazon Payment account upfront, and the remaining {{ treatment.get_remaining }}% will be paid as soon as you complete the task (i.e. finished all 10 images){% else %} we will pay ${{ treatment.wage }} upon competion of the 10 images.{% endif %}
-                {% endif %}
+            {% endif %}
                 <li>It is possible that some of the images are too blurry to be readable. <u>Reporting those as unreadable is acceptable and will NOT reduce your bonus payment.</u></li>
-                <li>You will need to finish the task within the next <mark>{{ mturker.get_time_limit }} hours</mark> in order to receive payments.</li>
+                <li>You will need to finish the task within the next <mark><span style="font-size:20px"><b>{{ mturker.get_time_limit }} hours</b></span></mark> in order to receive payments.</li>
             </ul>
         </div>
         <div class="col-sm-10 col-md-10">
