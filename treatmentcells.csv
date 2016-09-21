@@ -1,101 +1,191 @@
-id,treatment cell,upfront,imgsni,dafda,dfafda,dfa,dadf
-1,baseline,0,exog,NoSort,$3 ,0,pilot2
-2,baseline,0,exog,NoSort,$3 ,0,pilot2
-3,baseline,0,exog,NoSort,$3 ,0,pilot2
-4,baseline,0,exog,NoSort,$3 ,0,pilot2
-5,baseline,0,exog,NoSort,$3 ,0,pilot2
-6,baseline,0,exog,NoSort,$3 ,0,pilot2
-7,baseline,0,exog,NoSort,$3 ,0,pilot2
-8,baseline,0,exog,NoSort,$3 ,0,pilot2
-9,baseline,0,exog,NoSort,$3 ,0,pilot2
-10,baseline,0,exog,NoSort,$3 ,0,pilot2
-11,baseline,0,exog,NoSort,$3 ,0,pilot2
-12,baseline,0,exog,NoSort,$3 ,0,pilot2
-13,baseline,0,exog,NoSort,$3 ,0,pilot2
-14,baseline,0,exog,NoSort,$3 ,0,pilot2
-15,baseline,0,exog,NoSort,$3 ,0,pilot2
-16,baseline,0,exog,NoSort,$3 ,0,pilot2
-17,baseline,0,exog,NoSort,$3 ,0,pilot2
-18,baseline,0,exog,NoSort,$3 ,0,pilot2
-19,baseline,0,exog,NoSort,$3 ,0,pilot2
-20,baseline,0,exog,NoSort,$3 ,0,pilot2
-21,upfront10,10,exog,NoSort,$3 ,0,pilot2
-22,upfront10,10,exog,NoSort,$3 ,0,pilot2
-23,upfront10,10,exog,NoSort,$3 ,0,pilot2
-24,upfront10,10,exog,NoSort,$3 ,0,pilot2
-25,upfront10,10,exog,NoSort,$3 ,0,pilot2
-26,upfront10,10,exog,NoSort,$3 ,0,pilot2
-27,upfront10,10,exog,NoSort,$3 ,0,pilot2
-28,upfront10,10,exog,NoSort,$3 ,0,pilot2
-29,upfront10,10,exog,NoSort,$3 ,0,pilot2
-30,upfront10,10,exog,NoSort,$3 ,0,pilot2
-31,upfront10,10,exog,NoSort,$3 ,0,pilot2
-32,upfront10,10,exog,NoSort,$3 ,0,pilot2
-33,upfront10,10,exog,NoSort,$3 ,0,pilot2
-34,upfront10,10,exog,NoSort,$3 ,0,pilot2
-35,upfront10,10,exog,NoSort,$3 ,0,pilot2
-36,upfront10,10,exog,NoSort,$3 ,0,pilot2
-37,upfront10,10,exog,NoSort,$3 ,0,pilot2
-38,upfront10,10,exog,NoSort,$3 ,0,pilot2
-39,upfront10,10,exog,NoSort,$3 ,0,pilot2
-40,upfront10,10,exog,NoSort,$3 ,0,pilot2
-41,upfront50,50,exog,NoSort,$3 ,0,pilot2
-42,upfront50,50,exog,NoSort,$3 ,0,pilot2
-43,upfront50,50,exog,NoSort,$3 ,0,pilot2
-44,upfront50,50,exog,NoSort,$3 ,0,pilot2
-45,upfront50,50,exog,NoSort,$3 ,0,pilot2
-46,upfront50,50,exog,NoSort,$3 ,0,pilot2
-47,upfront50,50,exog,NoSort,$3 ,0,pilot2
-48,upfront50,50,exog,NoSort,$3 ,0,pilot2
-49,upfront50,50,exog,NoSort,$3 ,0,pilot2
-50,upfront50,50,exog,NoSort,$3 ,0,pilot2
-51,upfront50,50,exog,NoSort,$3 ,0,pilot2
-52,upfront50,50,exog,NoSort,$3 ,0,pilot2
-53,upfront50,50,exog,NoSort,$3 ,0,pilot2
-54,upfront50,50,exog,NoSort,$3 ,0,pilot2
-55,upfront50,50,exog,NoSort,$3 ,0,pilot2
-56,upfront50,50,exog,NoSort,$3 ,0,pilot2
-57,upfront50,50,exog,NoSort,$3 ,0,pilot2
-58,upfront50,50,exog,NoSort,$3 ,0,pilot2
-59,upfront50,50,exog,NoSort,$3 ,0,pilot2
-60,upfront50,50,exog,NoSort,$3 ,0,pilot2
-61,upfront90,90,exog,NoSort,$3 ,0,pilot2
-62,upfront90,90,exog,NoSort,$3 ,0,pilot2
-63,upfront90,90,exog,NoSort,$3 ,0,pilot2
-64,upfront90,90,exog,NoSort,$3 ,0,pilot2
-65,upfront90,90,exog,NoSort,$3 ,0,pilot2
-66,upfront90,90,exog,NoSort,$3 ,0,pilot2
-67,upfront90,90,exog,NoSort,$3 ,0,pilot2
-68,upfront90,90,exog,NoSort,$3 ,0,pilot2
-69,upfront90,90,exog,NoSort,$3 ,0,pilot2
-70,upfront90,90,exog,NoSort,$3 ,0,pilot2
-71,upfront90,90,exog,NoSort,$3 ,0,pilot2
-72,upfront90,90,exog,NoSort,$3 ,0,pilot2
-73,upfront90,90,exog,NoSort,$3 ,0,pilot2
-74,upfront90,90,exog,NoSort,$3 ,0,pilot2
-75,upfront90,90,exog,NoSort,$3 ,0,pilot2
-76,upfront90,90,exog,NoSort,$3 ,0,pilot2
-77,upfront90,90,exog,NoSort,$3 ,0,pilot2
-78,upfront90,90,exog,NoSort,$3 ,0,pilot2
-79,upfront90,90,exog,NoSort,$3 ,0,pilot2
-80,upfront90,90,exog,NoSort,$3 ,0,pilot2
-81,endog,0,endog,NoSort,$3 ,0,pilot2
-82,endog,0,endog,NoSort,$3 ,0,pilot2
-83,endog,0,endog,NoSort,$3 ,0,pilot2
-84,endog,0,endog,NoSort,$3 ,0,pilot2
-85,endog,0,endog,NoSort,$3 ,0,pilot2
-86,endog,0,endog,NoSort,$3 ,0,pilot2
-87,endog,0,endog,NoSort,$3 ,0,pilot2
-88,endog,0,endog,NoSort,$3 ,0,pilot2
-89,endog,0,endog,NoSort,$3 ,0,pilot2
-90,endog,0,endog,NoSort,$3 ,0,pilot2
-91,endog,0,endog,NoSort,$3 ,0,pilot2
-92,endog,0,endog,NoSort,$3 ,0,pilot2
-93,endog,0,endog,NoSort,$3 ,0,pilot2
-94,endog,0,endog,NoSort,$3 ,0,pilot2
-95,endog,0,endog,NoSort,$3 ,0,pilot2
-96,endog,0,endog,NoSort,$3 ,0,pilot2
-97,endog,0,endog,NoSort,$3 ,0,pilot2
-98,endog,0,endog,NoSort,$3 ,0,pilot2
-99,endog,0,endog,NoSort,$3 ,0,pilot2
-100,endog,0,endog,NoSort,$3 ,0,pilot2
+id,treatment cell,"""upfront"": percentage of the upfront payment",number of images: exogogenous/endogenous,Sort/Nosort,Wage,CSR,batch
+1,baseline,0,exog,NoSort,1.2,0,pilot3
+2,baseline,0,exog,NoSort,1.2,0,pilot3
+3,baseline,0,exog,NoSort,1.2,0,pilot3
+4,baseline,0,exog,NoSort,1.2,0,pilot3
+5,baseline,0,exog,NoSort,1.2,0,pilot3
+6,baseline,0,exog,NoSort,1.2,0,pilot3
+7,baseline,0,exog,NoSort,1.2,0,pilot3
+8,baseline,0,exog,NoSort,1.2,0,pilot3
+9,baseline,0,exog,NoSort,1.2,0,pilot3
+10,baseline,0,exog,NoSort,1.2,0,pilot3
+11,baseline,0,exog,NoSort,1.2,0,pilot3
+12,baseline,0,exog,NoSort,1.2,0,pilot3
+13,baseline,0,exog,NoSort,1.2,0,pilot3
+14,baseline,0,exog,NoSort,1.2,0,pilot3
+15,baseline,0,exog,NoSort,1.2,0,pilot3
+16,baseline,0,exog,NoSort,1.2,0,pilot3
+17,baseline,0,exog,NoSort,1.2,0,pilot3
+18,baseline,0,exog,NoSort,1.2,0,pilot3
+19,baseline,0,exog,NoSort,1.2,0,pilot3
+20,baseline,0,exog,NoSort,1.2,0,pilot3
+21,baseline,0,exog,NoSort,1.2,0,pilot3
+22,baseline,0,exog,NoSort,1.2,0,pilot3
+23,baseline,0,exog,NoSort,1.2,0,pilot3
+24,baseline,0,exog,NoSort,1.2,0,pilot3
+25,baseline,0,exog,NoSort,1.2,0,pilot3
+26,baseline,0,exog,NoSort,1.2,0,pilot3
+27,baseline,0,exog,NoSort,1.2,0,pilot3
+28,baseline,0,exog,NoSort,1.2,0,pilot3
+29,baseline,0,exog,NoSort,1.2,0,pilot3
+30,baseline,0,exog,NoSort,1.2,0,pilot3
+31,baseline,0,exog,NoSort,1.2,0,pilot3
+32,baseline,0,exog,NoSort,1.2,0,pilot3
+33,baseline,0,exog,NoSort,1.2,0,pilot3
+34,baseline,0,exog,NoSort,1.2,0,pilot3
+35,baseline,0,exog,NoSort,1.2,0,pilot3
+36,baseline,0,exog,NoSort,1.2,0,pilot3
+37,baseline,0,exog,NoSort,1.2,0,pilot3
+38,baseline,0,exog,NoSort,1.2,0,pilot3
+39,baseline,0,exog,NoSort,1.2,0,pilot3
+40,baseline,0,exog,NoSort,1.2,0,pilot3
+41,upfront10,10,exog,NoSort,1.2,0,pilot3
+42,upfront10,10,exog,NoSort,1.2,0,pilot3
+43,upfront10,10,exog,NoSort,1.2,0,pilot3
+44,upfront10,10,exog,NoSort,1.2,0,pilot3
+45,upfront10,10,exog,NoSort,1.2,0,pilot3
+46,upfront10,10,exog,NoSort,1.2,0,pilot3
+47,upfront10,10,exog,NoSort,1.2,0,pilot3
+48,upfront10,10,exog,NoSort,1.2,0,pilot3
+49,upfront10,10,exog,NoSort,1.2,0,pilot3
+50,upfront10,10,exog,NoSort,1.2,0,pilot3
+51,upfront10,10,exog,NoSort,1.2,0,pilot3
+52,upfront10,10,exog,NoSort,1.2,0,pilot3
+53,upfront10,10,exog,NoSort,1.2,0,pilot3
+54,upfront10,10,exog,NoSort,1.2,0,pilot3
+55,upfront10,10,exog,NoSort,1.2,0,pilot3
+56,upfront10,10,exog,NoSort,1.2,0,pilot3
+57,upfront10,10,exog,NoSort,1.2,0,pilot3
+58,upfront10,10,exog,NoSort,1.2,0,pilot3
+59,upfront10,10,exog,NoSort,1.2,0,pilot3
+60,upfront10,10,exog,NoSort,1.2,0,pilot3
+61,upfront10,10,exog,NoSort,1.2,0,pilot3
+62,upfront10,10,exog,NoSort,1.2,0,pilot3
+63,upfront10,10,exog,NoSort,1.2,0,pilot3
+64,upfront10,10,exog,NoSort,1.2,0,pilot3
+65,upfront10,10,exog,NoSort,1.2,0,pilot3
+66,upfront10,10,exog,NoSort,1.2,0,pilot3
+67,upfront10,10,exog,NoSort,1.2,0,pilot3
+68,upfront10,10,exog,NoSort,1.2,0,pilot3
+69,upfront10,10,exog,NoSort,1.2,0,pilot3
+70,upfront10,10,exog,NoSort,1.2,0,pilot3
+71,upfront10,10,exog,NoSort,1.2,0,pilot3
+72,upfront10,10,exog,NoSort,1.2,0,pilot3
+73,upfront10,10,exog,NoSort,1.2,0,pilot3
+74,upfront10,10,exog,NoSort,1.2,0,pilot3
+75,upfront10,10,exog,NoSort,1.2,0,pilot3
+76,upfront10,10,exog,NoSort,1.2,0,pilot3
+77,upfront10,10,exog,NoSort,1.2,0,pilot3
+78,upfront10,10,exog,NoSort,1.2,0,pilot3
+79,upfront10,10,exog,NoSort,1.2,0,pilot3
+80,upfront10,10,exog,NoSort,1.2,0,pilot3
+81,upfront50,50,exog,NoSort,1.2,0,pilot3
+82,upfront50,50,exog,NoSort,1.2,0,pilot3
+83,upfront50,50,exog,NoSort,1.2,0,pilot3
+84,upfront50,50,exog,NoSort,1.2,0,pilot3
+85,upfront50,50,exog,NoSort,1.2,0,pilot3
+86,upfront50,50,exog,NoSort,1.2,0,pilot3
+87,upfront50,50,exog,NoSort,1.2,0,pilot3
+88,upfront50,50,exog,NoSort,1.2,0,pilot3
+89,upfront50,50,exog,NoSort,1.2,0,pilot3
+90,upfront50,50,exog,NoSort,1.2,0,pilot3
+91,upfront50,50,exog,NoSort,1.2,0,pilot3
+92,upfront50,50,exog,NoSort,1.2,0,pilot3
+93,upfront50,50,exog,NoSort,1.2,0,pilot3
+94,upfront50,50,exog,NoSort,1.2,0,pilot3
+95,upfront50,50,exog,NoSort,1.2,0,pilot3
+96,upfront50,50,exog,NoSort,1.2,0,pilot3
+97,upfront50,50,exog,NoSort,1.2,0,pilot3
+98,upfront50,50,exog,NoSort,1.2,0,pilot3
+99,upfront50,50,exog,NoSort,1.2,0,pilot3
+100,upfront50,50,exog,NoSort,1.2,0,pilot3
+101,upfront50,50,exog,NoSort,1.2,0,pilot3
+102,upfront50,50,exog,NoSort,1.2,0,pilot3
+103,upfront50,50,exog,NoSort,1.2,0,pilot3
+104,upfront50,50,exog,NoSort,1.2,0,pilot3
+105,upfront50,50,exog,NoSort,1.2,0,pilot3
+106,upfront50,50,exog,NoSort,1.2,0,pilot3
+107,upfront50,50,exog,NoSort,1.2,0,pilot3
+108,upfront50,50,exog,NoSort,1.2,0,pilot3
+109,upfront50,50,exog,NoSort,1.2,0,pilot3
+110,upfront50,50,exog,NoSort,1.2,0,pilot3
+111,upfront50,50,exog,NoSort,1.2,0,pilot3
+112,upfront50,50,exog,NoSort,1.2,0,pilot3
+113,upfront50,50,exog,NoSort,1.2,0,pilot3
+114,upfront50,50,exog,NoSort,1.2,0,pilot3
+115,upfront50,50,exog,NoSort,1.2,0,pilot3
+116,upfront50,50,exog,NoSort,1.2,0,pilot3
+117,upfront50,50,exog,NoSort,1.2,0,pilot3
+118,upfront50,50,exog,NoSort,1.2,0,pilot3
+119,upfront50,50,exog,NoSort,1.2,0,pilot3
+120,upfront50,50,exog,NoSort,1.2,0,pilot3
+121,upfront90,90,exog,NoSort,1.2,0,pilot3
+122,upfront90,90,exog,NoSort,1.2,0,pilot3
+123,upfront90,90,exog,NoSort,1.2,0,pilot3
+124,upfront90,90,exog,NoSort,1.2,0,pilot3
+125,upfront90,90,exog,NoSort,1.2,0,pilot3
+126,upfront90,90,exog,NoSort,1.2,0,pilot3
+127,upfront90,90,exog,NoSort,1.2,0,pilot3
+128,upfront90,90,exog,NoSort,1.2,0,pilot3
+129,upfront90,90,exog,NoSort,1.2,0,pilot3
+130,upfront90,90,exog,NoSort,1.2,0,pilot3
+131,upfront90,90,exog,NoSort,1.2,0,pilot3
+132,upfront90,90,exog,NoSort,1.2,0,pilot3
+133,upfront90,90,exog,NoSort,1.2,0,pilot3
+134,upfront90,90,exog,NoSort,1.2,0,pilot3
+135,upfront90,90,exog,NoSort,1.2,0,pilot3
+136,upfront90,90,exog,NoSort,1.2,0,pilot3
+137,upfront90,90,exog,NoSort,1.2,0,pilot3
+138,upfront90,90,exog,NoSort,1.2,0,pilot3
+139,upfront90,90,exog,NoSort,1.2,0,pilot3
+140,upfront90,90,exog,NoSort,1.2,0,pilot3
+141,upfront90,90,exog,NoSort,1.2,0,pilot3
+142,upfront90,90,exog,NoSort,1.2,0,pilot3
+143,upfront90,90,exog,NoSort,1.2,0,pilot3
+144,upfront90,90,exog,NoSort,1.2,0,pilot3
+145,upfront90,90,exog,NoSort,1.2,0,pilot3
+146,upfront90,90,exog,NoSort,1.2,0,pilot3
+147,upfront90,90,exog,NoSort,1.2,0,pilot3
+148,upfront90,90,exog,NoSort,1.2,0,pilot3
+149,upfront90,90,exog,NoSort,1.2,0,pilot3
+150,upfront90,90,exog,NoSort,1.2,0,pilot3
+151,upfront90,90,exog,NoSort,1.2,0,pilot3
+152,upfront90,90,exog,NoSort,1.2,0,pilot3
+153,upfront90,90,exog,NoSort,1.2,0,pilot3
+154,upfront90,90,exog,NoSort,1.2,0,pilot3
+155,upfront90,90,exog,NoSort,1.2,0,pilot3
+156,upfront90,90,exog,NoSort,1.2,0,pilot3
+157,upfront90,90,exog,NoSort,1.2,0,pilot3
+158,upfront90,90,exog,NoSort,1.2,0,pilot3
+159,upfront90,90,exog,NoSort,1.2,0,pilot3
+160,upfront90,90,exog,NoSort,1.2,0,pilot3
+161,endog,0,endog,NoSort,0.6,0,pilot3
+162,endog,0,endog,NoSort,0.6,0,pilot3
+163,endog,0,endog,NoSort,0.6,0,pilot3
+164,endog,0,endog,NoSort,0.6,0,pilot3
+165,endog,0,endog,NoSort,0.6,0,pilot3
+166,endog,0,endog,NoSort,0.6,0,pilot3
+167,endog,0,endog,NoSort,0.6,0,pilot3
+168,endog,0,endog,NoSort,0.6,0,pilot3
+169,endog,0,endog,NoSort,0.6,0,pilot3
+170,endog,0,endog,NoSort,0.6,0,pilot3
+171,endog,0,endog,NoSort,0.6,0,pilot3
+172,endog,0,endog,NoSort,0.6,0,pilot3
+173,endog,0,endog,NoSort,0.6,0,pilot3
+174,endog,0,endog,NoSort,0.6,0,pilot3
+175,endog,0,endog,NoSort,0.6,0,pilot3
+176,endog,0,endog,NoSort,0.6,0,pilot3
+177,endog,0,endog,NoSort,0.6,0,pilot3
+178,endog,0,endog,NoSort,0.6,0,pilot3
+179,endog,0,endog,NoSort,0.6,0,pilot3
+180,endog,0,endog,NoSort,0.6,0,pilot3
+181,endog,0,endog,NoSort,0.6,0,pilot3
+182,endog,0,endog,NoSort,0.6,0,pilot3
+183,endog,0,endog,NoSort,0.6,0,pilot3
+184,endog,0,endog,NoSort,0.6,0,pilot3
+185,endog,0,endog,NoSort,0.6,0,pilot3
+186,endog,0,endog,NoSort,0.6,0,pilot3
+187,endog,0,endog,NoSort,0.6,0,pilot3
+188,endog,0,endog,NoSort,0.6,0,pilot3
+189,endog,0,endog,NoSort,0.6,0,pilot3
+190,endog,0,endog,NoSort,0.6,0,pilot3

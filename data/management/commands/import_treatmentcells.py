@@ -12,14 +12,11 @@ class Command(BaseCommand):
             csvReader = csv.reader(f)
             next(csvReader, None)
             for row in csvReader:
-                if row[3] == "NoSort":
+                if row[4] == "NoSort":
                     sorting = False
                 else:
                     sorting = True
-                if row[1] == "endog":
-                    wage = 3
-                else:
-                    wage = str(row[5]).replace("$",'')
+                wage = str(row[5]).replace("$",'')
                 tc = TreatmentCell(treatment=row[1], upfront=row[2], imageLimit=row[3], sorting=sorting, wage=wage, csr=row[6], batch=row[7])
                 tc.save()
 
