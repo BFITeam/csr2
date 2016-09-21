@@ -12,7 +12,7 @@ logging.basicConfig()
 
 sandbox_host = 'mechanicalturk.sandbox.amazonaws.com'
 real_host = 'mechanicalturk.amazonaws.com'
-_BATCH = 'pilot2'
+_BATCH = 'pilot3'
 
 mturk = boto.mturk.connection.MTurkConnection(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
@@ -45,7 +45,7 @@ def job():
                 print response
                 mturker, created = Mturker.objects.get_or_create(user_id=user.id)
                 #tc = TreatmentCell.objects.filter(batch=_BATCH).filter(finished=0).order_by('?')[0]
-                tc = TreatmentCell.objects.filter(batch=_BATCH).filter(treatment="upfront90")[0]
+                tc = TreatmentCell.objects.filter(batch=_BATCH).filter(treatment="upfront10")[0]
                 mturker.assign_treatmentcell(tc.id, response['workerId'], response['assignmentId'])
                 feedback = "Your response to our Mturk HIT was just auto-approved and your $0.10 reward was paid on your Amazon Payment account.  Please use this code: {} to login at https://tranquil-meadow-42703.herokuapp.com to receive information about our short task and earn EXTRA payment as a bonus.".format(mturker.user.username)
                 mturk.notify_workers([response['workerId']], "Assess Code Verified", feedback)
