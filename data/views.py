@@ -21,7 +21,6 @@ from worker import mturk
 @login_required(login_url="/login/")
 def index(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
-    mturker.start_timer()
     return HttpResponseRedirect(reverse('data:info'))
 
 @login_required(login_url="/login/")

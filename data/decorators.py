@@ -18,6 +18,8 @@ def check_for_spam(user_id, seconds):
 
 def check_verified(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
+        if request.user.mturker.verified:
+            request.user.mturker.start_timer()
         if not request.user.mturker.verified:
             return redirect('data:unauthorized', message=1)
         elif not request.user.mturker.check_access():
