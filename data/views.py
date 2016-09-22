@@ -27,6 +27,7 @@ def index(request):
 @check_verified
 def info(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
+    mrturker.start_timer()
     mturker.get_payment_values()
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
     if mturker.accepted == 1:

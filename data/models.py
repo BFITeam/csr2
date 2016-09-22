@@ -46,7 +46,7 @@ class Mturker(models.Model):
     user = models.OneToOneField(User)
     verified = models.IntegerField(default=0)
     accepted = models.IntegerField(null=True, blank=True)
-    start = models.DateTimeField(default=get_now)
+    start = models.DateTimeField()
     mturkid = models.CharField(max_length=256, null=True, blank=True)
     assignmentId = models.CharField(max_length=256, null=True, blank=True)
     batch = models.CharField(max_length=128, null=True, blank=True)
@@ -78,6 +78,9 @@ class Mturker(models.Model):
 
         td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
         return td > timezone.now() - self.user.date_joined
+
+    def start_timer(self):
+        pass
 
     def get_payment_values(self):
         tc = self.treatmentcell
