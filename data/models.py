@@ -34,8 +34,8 @@ class Constants:
             },
     }
     timeLimit = {
-        'exog': [2, 0],
-        'endog': [5, 0],
+        'exog': [2, 1],
+        'endog': [5, 1],
     }
 
 def get_now():

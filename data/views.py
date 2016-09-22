@@ -21,13 +21,13 @@ from worker import mturk
 @login_required(login_url="/login/")
 def index(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
+    mturker.start_timer()
     return HttpResponseRedirect(reverse('data:info'))
 
 @login_required(login_url="/login/")
 @check_verified
 def info(request):
     mturker, create = Mturker.objects.get_or_create(user_id=request.user.id)
-    mrturker.start_timer()
     mturker.get_payment_values()
     MturkerForm = modelform_factory(Mturker, fields=['accepted',])
     if mturker.accepted == 1:
