@@ -74,6 +74,7 @@ class Mturker(models.Model):
 
 
     def check_access(self):
+        self.start_timer()
         timeLimit = Constants.timeLimit[self.treatmentcell.imageLimit]
 
         td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
