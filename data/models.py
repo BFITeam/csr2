@@ -34,8 +34,8 @@ class Constants:
             },
     }
     timeLimit = {
-        'exog': [2, 2],
-        'endog': [5, 2],
+        'exog': [2, 0],
+        'endog': [5, 0],
     }
 
 def get_now():
@@ -67,7 +67,7 @@ class Mturker(models.Model):
     def get_time_limit(self):
         timeLimit = Constants.timeLimit[self.treatmentcell.imageLimit]
         td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
-        rt = td - (timezone.now() - self.user.date_joined)
+        rt = td - (timezone.now() - self.start)
         m,s = divmod(rt.seconds, 60)
         h,m = divmod(m, 60)
         return "%d:%02d" % (h,m)
@@ -77,10 +77,12 @@ class Mturker(models.Model):
         timeLimit = Constants.timeLimit[self.treatmentcell.imageLimit]
 
         td = datetime.timedelta(hours=timeLimit[0], minutes=timeLimit[1])
-        return td > timezone.now() - self.user.date_joined
+        return td > timezone.now() - self.start
 
     def start_timer(self):
-        pass
+        if not self.start:
+            self.start = timezone.now()
+            self.save()
 
     def get_payment_values(self):
         tc = self.treatmentcell
