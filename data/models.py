@@ -140,15 +140,18 @@ class Mturker(models.Model):
 
     def check_finished(self):
         try:
+            numImages = len(Image.objects.filter(treatment=self.treatmentcell.imageLimit))
+        except AttributeError:
+            return False
+        else:
             if len(self.user.task_set.filter(status=1)) == len(Image.objects.filter(treatment=self.treatmentcell.imageLimit)) or self.finished == True:
                 self.finished = True
                 self.treatmentcell.finished = True
+                self.treatmentcell.save()
                 self.save()
                 return True
             else:
                 return False
-        except AttributeError:
-            return False
 
     def get_batchNo(self):
         tasks = self.user.task_set.filter(status=1)
