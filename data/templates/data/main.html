@@ -33,7 +33,7 @@
                 {% if treatment.upfront != 0 %}
                     Please complete the task in the next <mark><span style="font-size:20px"><b>{{ mturker.get_time_limit }} hours</b></span></mark> in order to receive the remaining {{ treatment.get_remaining }}% of your payment.
                 {% else %}
-                    Please complete the task in the next <mark><span style="font-size:20px"><b>{{ mtutker.get_time_limit }} hours</b></span></mark> in order to receive your payment.
+                    Please complete the task in the next <mark><span style="font-size:20px"><b>{{ mturker.get_time_limit }} hours</b></span></mark> in order to receive your payment.
                 {% endif %}
             {% endif %}
             </p>
