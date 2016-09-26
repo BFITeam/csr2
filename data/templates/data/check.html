@@ -11,7 +11,7 @@
         {% include "data/includes/info.html" %}
         <div class="col-sm-8 col-sm-pull-4">
             <p>Thank you for helping us with this transcription task.</p>
-            <p>You have completed the requisite number of images for this batch and we just paid you a bonus of ${{ treatment.wage }} on your Amazon account.  Would you like to continue on another set of images?</p>
+            <p>You have completed the requisite number of images for this batch and we just paid you a bonus of ${{ treatment.wage|floatformat:"-2" }} on your Amazon account.  Would you like to continue on another set of images?</p>
         </div>
         <div class="col-sm-4 col-md-4 col-sm-pull-4">
             <form action="/check/" method="post">

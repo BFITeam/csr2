@@ -12,7 +12,7 @@
         <div class="col-sm-8 col-sm-pull-4">
             <p>Thank you for helping us with this transcription task.
         {% if treatment.imageLimit == "endog" %}
-            You may work on as many batches of 5 images as you want and will receive your bonus of ${{ treatment.wage }} per batch on your Amazon Payment account, upon finishing each batch.
+            You may work on as many batches of 5 images as you want and will receive your bonus of ${{ treatment.wage|floatformat:"-2" }} per batch on your Amazon Payment account, upon finishing each batch.
         {% else %}
             {% if treatment.upfront != 0 %}
                 We just made an upfront payment of ${{ mturker.upfront_payment }} as a bonus on your Amazon Payment account.
