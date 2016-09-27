@@ -24,17 +24,21 @@ mturk = boto.mturk.connection.MTurkConnection(
 def job():
     start = time.time()
     responses = []
-    for hitid in mturk.get_all_hits():
+    all_hits = [hit for hit in mturk.get_all_hits()]
+    for hitid in all_hits:
     #print hitid.HITId
-        for assignment in mturk.get_assignments(hitid.HITId):
-            answers = assignment.answers[0]
-            for a in answers:
-                if a.qid == "AccessCode":
-                    responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0], assignmentId=assignment.AssignmentId))
+        assignments = mturk.get_assignments(hitid.HITId, status="Submitted")
+        for assignment in assignments:
+            for answers in assignment.answers:
+            #answers = assignment.answers[0]
+                for a in answers:
+                    if a.qid == "AccessCode":
+                        responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0], assignmentId=assignment.AssignmentId))
 
+    print "Number of responses in list: {}".format(len(responses))
     for response in responses:
         try:
-            user = User.objects.get(username=response['access_key'])
+            user = User.objects.get(username=str(response['access_key']).replace(" ",""))
         except ObjectDoesNotExist:
             response['verified'] = 0
         else:
