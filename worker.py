@@ -21,21 +21,35 @@ mturk = boto.mturk.connection.MTurkConnection(
     debug=1
 )
 
+def get_assignments_by_page(hitid, page):
+    responses = []
+    assignments = mturk.get_assignments(hitid, status="Submitted", page_number=page)
+    for assignment in assignments:
+        print assignment
+        for answers in assignment.answers:
+            for a in answers:
+                if a.qid == "AccessCode":
+                    responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0], assignmentId=assignment.AssignmentId))
+    return responses
+
 def job():
     start = time.time()
     responses = []
     all_hits = [hit for hit in mturk.get_all_hits()]
+    print all_hits
     for hitid in all_hits:
-    #print hitid.HITId
-        assignments = mturk.get_assignments(hitid.HITId, status="Submitted")
-        for assignment in assignments:
-            for answers in assignment.answers:
-            #answers = assignment.answers[0]
-                for a in answers:
-                    if a.qid == "AccessCode":
-                        responses.append(dict(workerId=assignment.WorkerId, access_key=a.fields[0], assignmentId=assignment.AssignmentId))
+        more = True
+        page = 1
+        while more:
+            pageResponses = get_assignments_by_page(hitid.HITId, page)
+            responses += pageResponses
+            print len(pageResponses)
+            if len(pageResponses) == 0:
+                more = False
+            page += 1
 
     print "Number of responses in list: {}".format(len(responses))
+
     for response in responses:
         try:
             user = User.objects.get(username=str(response['access_key']).replace(" ",""))
