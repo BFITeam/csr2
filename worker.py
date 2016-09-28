@@ -25,7 +25,6 @@ def get_assignments_by_page(hitid, page):
     responses = []
     assignments = mturk.get_assignments(hitid, status="Submitted", page_number=page)
     for assignment in assignments:
-        print assignment
         for answers in assignment.answers:
             for a in answers:
                 if a.qid == "AccessCode":
@@ -36,14 +35,12 @@ def job():
     start = time.time()
     responses = []
     all_hits = [hit for hit in mturk.get_all_hits()]
-    print all_hits
     for hitid in all_hits:
         more = True
         page = 1
         while more:
             pageResponses = get_assignments_by_page(hitid.HITId, page)
             responses += pageResponses
-            print len(pageResponses)
             if len(pageResponses) == 0:
                 more = False
             page += 1
@@ -68,7 +65,6 @@ def job():
                 feedback = "Your response to our Mturk HIT was just auto-approved and your $0.10 reward was paid on your Amazon Payment account.  Please use this code: {} to login at https://tranquil-meadow-42703.herokuapp.com to receive information about our short task and earn EXTRA payment as a bonus.".format(mturker.user.username)
                 mturk.notify_workers([response['workerId']], "Assess Code Verified", feedback)
                 mturk.approve_assignment(response['assignmentId'], feedback=feedback)
-                print response['assignmentId']
 
     print "MTURK API Runtime: {}".format((time.time() - start))
 
