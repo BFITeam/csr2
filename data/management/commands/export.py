@@ -26,9 +26,9 @@ class Command(BaseCommand):
             writer = csv.writer(f, csv.excel)
             headers = self.get_headers(model)
             if model._meta.object_name == "Task":
-                supHeaders = ['mturkid', 'treatment', 'clicks', 'finished', 'accepted']
+                supHeaders = ['mturkid', 'treatmentcell', 'clicks', 'finished', 'accepted']
             elif model._meta.object_name == "User":
-                supHeaders = ['info', 'mturkid', 'verified', 'treatment']
+                supHeaders = ['info', 'mturkid', 'verified', 'treatmentcell']
             else:
                 supHeaders = []
             writer.writerow(headers + supHeaders)
@@ -44,7 +44,7 @@ class Command(BaseCommand):
                         row.append(getattr(obj,h))
                 if model._meta.object_name == "Task":
                     mturkid = obj.user.mturker.mturkid
-                    treatment = obj.user.mturker.treatment
+                    treatment = obj.user.mturker.treatmentcell.treatment
                     clicks = obj.user.mturker.instructionsCount
                     finished = obj.user.mturker.check_finished()
                     accepted = obj.user.mturker.accepted
@@ -60,8 +60,8 @@ class Command(BaseCommand):
                     try:
                         mturkid = obj.mturker.mturkid
                         verified = obj.mturker.verified
-                        treatment = obj.mturker.treatment
-                    except ObjectDoesNotExist:
+                        treatment = obj.mturker.treatmentcell.treatment
+                    except AttributeError:
                         mturkid = "NONE"
                         verified = "NONE"
                         treatment = "NONE"
@@ -76,20 +76,20 @@ class Command(BaseCommand):
         if not os.path.isdir(exportDir):
             os.mkdir(exportDir)
 
-        #taskFile = os.path.join(exportDir, 'task.csv')
-        #self.write_csv(taskFile, Task)
+        taskFile = os.path.join(exportDir, 'task.csv')
+        self.write_csv(taskFile, Task)
 
-        #eventFile = os.path.join(exportDir, 'eventlog.csv')
-        #self.write_csv(eventFile, EventLog)
+        eventFile = os.path.join(exportDir, 'eventlog.csv')
+        self.write_csv(eventFile, EventLog)
 
-        #workFile = os.path.join(exportDir, 'worktimer.csv')
-        #self.write_csv(workFile, WorkTimer)
+        workFile = os.path.join(exportDir, 'worktimer.csv')
+        self.write_csv(workFile, WorkTimer)
 
         userFile = os.path.join(exportDir, "user.csv")
         self.write_csv(userFile, User)
 
-        #imageFile = os.path.join(exportDir, "image.csv")
-        #self.write_csv(imageFile, Image)
+        imageFile = os.path.join(exportDir, "image.csv")
+        self.write_csv(imageFile, Image)
 
 
 
