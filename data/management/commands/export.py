@@ -28,7 +28,7 @@ class Command(BaseCommand):
             if model._meta.object_name == "Task":
                 supHeaders = ['mturkid', 'treatmentcell', 'clicks', 'finished', 'accepted']
             elif model._meta.object_name == "User":
-                supHeaders = ['info', 'mturkid', 'verified', 'treatmentcell', 'batch', 'accepted']
+                supHeaders = ['info', 'mturkid', 'verified', 'treatmentcell', 'batch', 'accepted', 'ip']
             else:
                 supHeaders = []
             writer.writerow(headers + supHeaders)
@@ -53,6 +53,10 @@ class Command(BaseCommand):
                 if model._meta.object_name == "User":
                     requests = obj.request_set.all()
                     info = 0
+                    try:
+                        ip = requests[0].ip
+                    except IndexError:
+                        ip = "NONE"
                     for r in requests:
                         if "info" in r.path:
                             info = 1
@@ -71,7 +75,7 @@ class Command(BaseCommand):
                         mturkid = "NONE"
                         verified = "NONE"
                         accepted = "NONE"
-                    row += [info, mturkid, verified, treatment, batch, accepted]
+                    row += [info, mturkid, verified, treatment, batch, accepted, ip]
 
 
 
