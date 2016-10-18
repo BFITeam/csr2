@@ -279,7 +279,9 @@ class TreatmentCell(models.Model):
     sorting = models.NullBooleanField()
     wage = models.CharField(max_length=128, null=True)
     wagebill = models.CharField(max_length=128, null=True)
-    csr = models.NullBooleanField()
+    csrvalue = models.CharField(max_length=128, null=True)
+    csrpercent = models.CharField(max_length=128, null=True)
+    msg = models.CharField(max_length=128, null=True)
 
     def get_remaining(self):
         return 100 - self.upfront

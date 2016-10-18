@@ -12,7 +12,7 @@ logging.basicConfig()
 
 sandbox_host = 'mechanicalturk.sandbox.amazonaws.com'
 real_host = 'mechanicalturk.amazonaws.com'
-_BATCH = 'pilot3'
+_BATCH = 'exp1'
 
 mturk = boto.mturk.connection.MTurkConnection(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],

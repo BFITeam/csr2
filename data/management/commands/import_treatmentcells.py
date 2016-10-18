@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 else:
                     sorting = True
                 wage = str(row[5]).replace("$",'')
-                tc = TreatmentCell(treatment=row[1], upfront=row[2], imageLimit=row[3], sorting=sorting, wage=wage, csr=row[6], batch=row[7])
+                tc = TreatmentCell(treatment=row[1], upfront=row[2], imageLimit=row[3], sorting=sorting, wage=wage, batch=row[6], csrvalue=row[7], csrpercent=row[8], msg=row[9])
                 tc.save()
 
 
