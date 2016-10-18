@@ -97,7 +97,7 @@ class Mturker(models.Model):
                 self.end_payment = tc.wage
             else:
                 upfront = float(tc.upfront)/100 * float(tc.wage)
-                self.end_payment = "%.2f" % (tc.wage - upfront)
+                self.end_payment = "%.2f" % (float(tc.wage) - upfront)
             self.upfront_payment = "%.2f" % upfront
             self.save()
 
