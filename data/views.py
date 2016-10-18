@@ -112,19 +112,19 @@ def task_entry(request):
 def complete(request):
     mturker = request.user.mturker
     tc = request.user.mturker.treatmentcell
-    if tc.treatment == "endog":
+    if tc.imageLimit == "endog":
         mturker.end_payment_bool = True
         if mturker.check_for_endog_payments() == True:
             price = Price(float(tc.wage), currency_code="USD")
             requester_message = "Here is your bonus of ${} for finishing a batch of images".format(tc.wage)
             mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
-    elif tc.treatment == "baseline":
+    elif tc.upfront == 0 and tc.imageLimit == "exog":
         requester_message = "Here is your bonus payment for finishing the transcription task.".format(tc.wage)
         price = Price(float(mturker.end_payment), currency_code="USD")
         if mturker.end_payment_bool == False:
             mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
             mturker.end_payment_bool = True
-    elif "upfront" in tc.treatment:
+    elif tc.upfront != 0 and tc.imageLimit == "exog":
         requester_message = "Here is the remaining {}% of your total bonus for finishing the images".format(100-tc.upfront)
         price = Price(float(mturker.end_payment), currency_code="USD")
         if mturker.end_payment_bool == False:
