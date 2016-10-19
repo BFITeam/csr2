@@ -17,7 +17,7 @@ _BATCH = 'exp1'
 mturk = boto.mturk.connection.MTurkConnection(
     aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
-    host = real_host,
+    host = sandbox_host,
     debug=1
 )
 
