@@ -116,7 +116,7 @@ def complete(request):
         mturker.end_payment_bool = True
         if mturker.check_for_endog_payments() == True:
             price = Price(float(tc.wage), currency_code="USD")
-            requester_message = "Here is your bonus of ${} for finishing a batch of images".format(tc.wage)
+            requester_message = "Here is your bonus of ${:2f} for finishing a batch of images".format(tc.wage)
             mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
     elif tc.upfront == 0 and tc.imageLimit == "exog":
         requester_message = "Here is your bonus payment for finishing the transcription task.".format(tc.wage)
