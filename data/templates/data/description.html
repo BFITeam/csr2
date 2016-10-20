@@ -12,9 +12,8 @@
         {% include 'data/includes/info.html' %}
     {% if request.user.mturker.treatmentcell.sorting %}
         <div class="col-sm-8 col-md-8 col-sm-pull-4">
-            <h3>We would like to start by sharing some information with you about our firm’s philanthropic mission:</h3>
+            <h3>A few words about our firm's philanthropic mission:</h3>
             <p class="alert alert-success">Our firm is committed to give back in meaningful ways. We are passionate about encouraging education for the next generation. We do our part by donating money to influential non-profit organizations that support education for children from low socioeconomic backgrounds. In keeping with our philanthropic mission, <span style="color:red;">we donate the equivalent of {{ treatment.csrpercent }}% of our wagebill in cash {% if treatment.msg == "Worker" %}on behalf of all workers who help us with this project {% endif %} to {{ Constants.Charity }} Education Programs.</span> {{ Constants.charity }} works tirelessly to ensure that every child—regardless of gender, ethnicity or circumstances—has access to a quality education. You may find out more about {{ Constants.charity }} Education Programs at: <a href="{{ Constants.charity_url }}">{{ Constants.charity }}</a>.</p>
-            <h3>Now, more information about the task and payment:</h3>
         </div>
     {% endif %}
         <div {% if not request.user.mturker.treatmentcell.sorting %}class="col-sm-8 col-md-8 col-sm-pull-4"{% else %}class="col-sm-8 col-md-8"{% endif %}>
