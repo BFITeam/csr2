@@ -58,7 +58,7 @@ def begin(request):
         print "sending upfront bonus"
         #pay them using boto and update upfront_payment_bool
         price = Price(amount=float(request.user.mturker.upfront_payment), currency_code="USD")
-        requester_message = "here is {}% of your total bonus.".format(mturker.treatmentcell.upfront)
+        requester_message = "Here is {}% of your total bonus.".format(mturker.treatmentcell.upfront)
         mturk.grant_bonus(request.user.mturker.mturkid, request.user.mturker.assignmentId, price, requester_message)
         mturker.upfront_payment_bool = 1
         mturker.save()
@@ -125,7 +125,7 @@ def complete(request):
             mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
             mturker.end_payment_bool = True
     elif tc.upfront != 0 and tc.imageLimit == "exog":
-        requester_message = "Here is the remaining {}% of your total bonus for finishing the images".format(100-tc.upfront)
+        requester_message = "Here is the remaining {}% of your total bonus for finishing the images.".format(100-tc.upfront)
         price = Price(float(mturker.end_payment), currency_code="USD")
         if mturker.end_payment_bool == False:
             mturk.grant_bonus(mturker.mturkid, mturker.assignmentId, price, requester_message)
