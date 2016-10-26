@@ -29,11 +29,11 @@
                 <li>Each batch includes 5 images (similar to the image on this page) and you will receive ${{ treatment.wage|floatformat:"-2" }} bonus for each batch that you work on, which will be paid as a bonus on your Amazon Payment account.</li>
                 <li>You may work on as many batches as you choose and earn extra bonus.</li>
             {% endif %}
-                <li>The task is <u>short</u> and will not take more than a few minutes per batch.</li>
+                <li>The task is <u>short</u> and will not take more than a few minutes.</li>
             {% if treatment.imageLimit == "endog" %}
                 <li>Your bonus for each batch will be paid to you as soon as you submit the batch.</li>
             {% else %}
-                <li>If you chose to work on 10 images,  {% if treatment.upfront != 0 %}we will immediately pay {{ treatment.upfront }}% of the total bonus to you on your Amazon Payment account upfront, and the remaining {{ treatment.get_remaining }}% will be paid as soon as you complete the task (i.e. finished all 10 images){% else %} we will pay ${{ treatment.wage|floatformat:"-2" }} upon competion of the 10 images.{% endif %}
+                <li>If you chose to work on 10 images,  {% if treatment.upfront != 0 %}we will immediately pay {{ treatment.upfront }}% of the total bonus to you on your Amazon Payment account upfront, and the remaining {{ treatment.get_remaining }}% will be paid as soon as you complete the task (i.e. finished all 10 images){% else %} we will pay ${{ treatment.wage|floatformat:"-2" }} upon completion of the 10 images.{% endif %}
             {% endif %}
                 <li>It is possible that some of the images are too blurry to be readable. <u>Reporting those as unreadable is acceptable and will NOT reduce your bonus payment.</u></li>
                 <li>You will need to finish the task within the next <mark><span style="font-size:20px"><b>{{ mturker.get_time_limit }} hours</b></span></mark> in order to receive payments.</li>
@@ -53,7 +53,7 @@
             {% if treatment.imageLimit == "endog" %}
             <p>NOTE: <u>Your ${{ treatment.wage|floatformat:"-2" }} bonus per batch will be paid on your account within a few minutes after you complete each batch. The bonus will be paid per batch and NOT per image!</u></p>
             {% else %}
-            <p>NOTE: <u>{% if treatment.upfront != 0 %} {{ treatment.upfront }}% (${{ mturker.upfront_payment }}) of the total bonus will be paid to you immediately after choosing the option to work on all 10 images and the remaining {{ treatment.get_remaining }}% (${{ mturker.end_payment }}) will be paid within a few minutes after you complete the task.{% else %}A bonus of ${{ mturker.end_payment }} with be paid within a few minutes after you complete all 10 images.{% endif %}</u></p>
+            <p>NOTE: <u>{% if treatment.upfront != 0 %} {{ treatment.upfront }}% (${{ mturker.upfront_payment }}) of the total bonus will be paid to you immediately after choosing the option to work on all 10 images and the remaining {{ treatment.get_remaining }}% (${{ mturker.end_payment|floatformat:"-2" }}) will be paid within a few minutes after you complete the task.{% else %}A bonus of ${{ mturker.end_payment|floatformat:"-2" }} will be paid within a few minutes after you complete all 10 images.{% endif %}</u></p>
             {% endif %}
             <p>Please choose one of the following options:</p>
         </div>
