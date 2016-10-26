@@ -39,8 +39,9 @@ def info(request):
             mturker.accepted = int(request.POST['accepted'])
             # If the accepted value = 1, then mark treatment as finished so
             # it doesn't get reassigned
-            mturker.treatmentcell.finished = 1
-            mturker.treatmentcell.save()
+            if int(request.POST['accepted']) == 1:
+                mturker.treatmentcell.finished = 1
+                mturker.treatmentcell.save()
             mturker.save()
             return redirect('data:begin') if mturker.accepted else redirect('data:unauthorized')
     else:
