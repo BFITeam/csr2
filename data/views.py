@@ -37,6 +37,8 @@ def info(request):
         mturkerform = MturkerForm(request.POST, instance=mturker)
         if mturkerform.is_valid():
             mturker.accepted = int(request.POST['accepted'])
+            # If the accepted value = 1, then mark treatment as finished so
+            # it doesn't get reassigned
             mturker.save()
             return redirect('data:begin') if mturker.accepted else redirect('data:unauthorized')
     else:
