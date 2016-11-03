@@ -162,6 +162,10 @@ def endog_check(request):
 def my_login(request, *args, **kwargs):
     kwargs = {'template_name': "login.html",}
     response = auth_views.login(request, **kwargs)
+    try:
+        User.objects.get(username=request.POST['username'])
+    except User.DoesNotExist:
+        return response
     if response.status_code == 302:
         user = User.objects.get(username=request.POST['username'])
         event = EventLog(user_id=user.id, name="login")
