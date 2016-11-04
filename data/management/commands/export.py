@@ -1,3 +1,4 @@
+import django
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from data.models import Task, WorkTimer, EventLog, Image
@@ -43,11 +44,18 @@ class Command(BaseCommand):
                     else:
                         row.append(getattr(obj,h))
                 if model._meta.object_name == "Task":
-                    mturkid = obj.user.mturker.mturkid
-                    treatment = obj.user.mturker.treatmentcell.treatment
-                    clicks = obj.user.mturker.instructionsCount
-                    finished = obj.user.mturker.check_finished()
-                    accepted = obj.user.mturker.accepted
+                    try:
+                        mturkid = obj.user.mturker.mturkid
+                        treatment = obj.user.mturker.treatmentcell.treatment
+                        clicks = obj.user.mturker.instructionsCount
+                        finished = obj.user.mturker.check_finished()
+                        accepted = obj.user.mturker.accepted
+                    except:
+                        mturkid = "Err"
+                        treatment = "Err"
+                        clicks = "Err"
+                        finished = "Err"
+                        accepted = "Err"
                     row += [mturkid, treatment, clicks, finished, accepted]
 
                 if model._meta.object_name == "User":
@@ -86,20 +94,20 @@ class Command(BaseCommand):
         if not os.path.isdir(exportDir):
             os.mkdir(exportDir)
 
-        #taskFile = os.path.join(exportDir, 'task.csv')
-        #self.write_csv(taskFile, Task)
+        taskFile = os.path.join(exportDir, 'task.csv')
+        self.write_csv(taskFile, Task)
 
-        #eventFile = os.path.join(exportDir, 'eventlog.csv')
-        #self.write_csv(eventFile, EventLog)
+        eventFile = os.path.join(exportDir, 'eventlog.csv')
+        self.write_csv(eventFile, EventLog)
 
-        #workFile = os.path.join(exportDir, 'worktimer.csv')
-        #self.write_csv(workFile, WorkTimer)
+        workFile = os.path.join(exportDir, 'worktimer.csv')
+        self.write_csv(workFile, WorkTimer)
 
         userFile = os.path.join(exportDir, "user.csv")
         self.write_csv(userFile, User)
 
-        #imageFile = os.path.join(exportDir, "image.csv")
-        #self.write_csv(imageFile, Image)
+        imageFile = os.path.join(exportDir, "image.csv")
+        self.write_csv(imageFile, Image)
 
 
 
