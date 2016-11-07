@@ -29,7 +29,7 @@ class Command(BaseCommand):
             if model._meta.object_name == "Task":
                 supHeaders = ['mturkid', 'treatmentcell', 'clicks', 'finished', 'accepted']
             elif model._meta.object_name == "User":
-                supHeaders = ['info', 'mturkid', 'verified', 'treatmentcell', 'batch', 'accepted', 'ip']
+                supHeaders = ['info', 'mturkid', 'verified', 'treatmentcell', 'batch', 'accepted', 'ip', 'start']
             else:
                 supHeaders = []
             writer.writerow(headers + supHeaders)
@@ -77,13 +77,15 @@ class Command(BaseCommand):
                         batch = "NONE"
                     try:
                         mturkid = obj.mturker.mturkid
+                        start = obj.mturker.start
                         verified = obj.mturker.verified
                         accepted = obj.mturker.accepted
                     except AttributeError:
                         mturkid = "NONE"
+                        start = "NONE"
                         verified = "NONE"
                         accepted = "NONE"
-                    row += [info, mturkid, verified, treatment, batch, accepted, ip]
+                    row += [info, mturkid, verified, treatment, batch, accepted, ip, start]
 
 
 
@@ -94,20 +96,20 @@ class Command(BaseCommand):
         if not os.path.isdir(exportDir):
             os.mkdir(exportDir)
 
-        taskFile = os.path.join(exportDir, 'task.csv')
-        self.write_csv(taskFile, Task)
+        #taskFile = os.path.join(exportDir, 'task.csv')
+        #self.write_csv(taskFile, Task)
 
-        eventFile = os.path.join(exportDir, 'eventlog.csv')
-        self.write_csv(eventFile, EventLog)
+        #eventFile = os.path.join(exportDir, 'eventlog.csv')
+        #self.write_csv(eventFile, EventLog)
 
-        workFile = os.path.join(exportDir, 'worktimer.csv')
-        self.write_csv(workFile, WorkTimer)
+        #workFile = os.path.join(exportDir, 'worktimer.csv')
+        #self.write_csv(workFile, WorkTimer)
 
         userFile = os.path.join(exportDir, "user.csv")
         self.write_csv(userFile, User)
 
-        imageFile = os.path.join(exportDir, "image.csv")
-        self.write_csv(imageFile, Image)
+        #imageFile = os.path.join(exportDir, "image.csv")
+        #self.write_csv(imageFile, Image)
 
 
 
