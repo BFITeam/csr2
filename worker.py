@@ -50,6 +50,8 @@ def job():
     for response in responses:
         try:
             user = User.objects.get(username=str(response['access_key']).replace(" ",""))
+        except UnicodeEncodeError:
+            print "Incorrect key entered"
         except ObjectDoesNotExist:
             response['verified'] = 0
         else:
