@@ -1,6 +1,6 @@
 # csr
 
-Online protal for employee data entry tasks
+Online protal for employee data entry tasks.  Otherwise known as Fatemeh's employee misbehavior project.
 
 
 ### Set up
