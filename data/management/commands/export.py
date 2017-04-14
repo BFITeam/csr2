@@ -96,14 +96,14 @@ class Command(BaseCommand):
         if not os.path.isdir(exportDir):
             os.mkdir(exportDir)
 
-        #taskFile = os.path.join(exportDir, 'task.csv')
-        #self.write_csv(taskFile, Task)
+        taskFile = os.path.join(exportDir, 'task.csv')
+        self.write_csv(taskFile, Task)
 
-        #eventFile = os.path.join(exportDir, 'eventlog.csv')
-        #self.write_csv(eventFile, EventLog)
+        eventFile = os.path.join(exportDir, 'eventlog.csv')
+        self.write_csv(eventFile, EventLog)
 
-        #workFile = os.path.join(exportDir, 'worktimer.csv')
-        #self.write_csv(workFile, WorkTimer)
+        workFile = os.path.join(exportDir, 'worktimer.csv')
+        self.write_csv(workFile, WorkTimer)
 
         userFile = os.path.join(exportDir, "user.csv")
         self.write_csv(userFile, User)
